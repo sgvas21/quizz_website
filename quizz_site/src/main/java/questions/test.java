@@ -42,4 +42,33 @@ public class test {
         System.out.println("incorrect answers: " + mcq.getIncorrectAnswers());
         System.out.println(mcq);
     }
+    @Test
+    public void PictureResponseQuestons_bean() {
+        int id = -1;
+
+        String question = "What is next: 1 2 4 8 16 ?";
+        String picUrl = "https://www.google.com/";
+        String correctAnswer = "32";
+
+        PictureResponseQuestion pcr = new PictureResponseQuestion();
+
+        assertNull(pcr.getQuestion());
+        assertNull(pcr.getCorrectAnswer());
+        assertNull(pcr.getPicURL());
+
+        pcr.setQuestionId(id);
+        pcr.setQuestion(question);
+        pcr.setPicURL(picUrl);
+        pcr.setCorrectAnswer(correctAnswer);
+
+        assertNotNull(pcr.getQuestion());
+        assertNotNull(pcr.getCorrectAnswer());
+        assertNotNull(pcr.getPicURL());
+
+        System.out.println("id: " + pcr.getQuestionId());
+        System.out.println("question: " + pcr.getQuestion());
+        System.out.println("picURL: " + pcr.getPicURL());
+        System.out.println("correct answer: " + pcr.getCorrectAnswer());
+        System.out.println(pcr);
+    }
 }
