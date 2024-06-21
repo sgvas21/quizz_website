@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class test {
 
-    @Test
+    @org.junit.Test
     public void testMultipleChoice_bean() {
         int id = -1;
 
@@ -43,7 +43,7 @@ public class test {
         System.out.println(mcq);
     }
     @Test
-    public void PictureResponseQuestons_bean() {
+    public void PictureResponseQuestions_bean() {
         int id = -1;
 
         String question = "What is next: 1 2 4 8 16 ?";
@@ -71,4 +71,7 @@ public class test {
         System.out.println("correct answer: " + pcr.getCorrectAnswer());
         System.out.println(pcr);
     }
+
+    // ჩამატებულია ტესტების ფოლდერი და გადატანილია ეს ფაილი იმ ფოლდერში, ეს შეგვიძლია მოვაშოროთ, როცა დავაგენერირებთ
+    // ტესტებს ავტომატურად ჩაეამატება იმ ფოლდერში.
 }
