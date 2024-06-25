@@ -6,11 +6,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-public class ResponseQuestion implements Question {
+public class Fill_InTheBlankQuestion implements Question{
     private int id;
     private String question;
     private List<String> legalAnswers;
-
     @Override
     public int getQuestionId() { return id; }
 
@@ -26,10 +25,13 @@ public class ResponseQuestion implements Question {
     @Override
     public double getScore(Response response) {
         Iterator<String> iterator = response.getAllAnswers();
-        while(iterator.hasNext()) {
-            if (legalAnswers.contains(iterator.next())) return 1;
+        double count = 0;
+        int idx = 0;
+        while (iterator.hasNext()) {
+            if (legalAnswers.get(idx).equals(iterator.next())) count++;
+            idx++;
         }
-        return 0;
+        return count;
     }
 
     public void setLegalAnswers(List<String> legalAnswers) { this.legalAnswers = legalAnswers; }
@@ -38,11 +40,10 @@ public class ResponseQuestion implements Question {
 
     @Override
     public String toString() {
-        return "ResponseQuestion {" +
+        return "Fill_InTheBlankQuestion {" +
                 "id=" + this.id +
                 ", question='" + this.question + '\'' +
                 ", legal answers='" + this.legalAnswers.toString() + '\'' +
                 '}';
     }
-
 }

@@ -1,5 +1,7 @@
 package questions;
 
+import response.Response;
+
 import javax.sql.rowset.CachedRowSet;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +31,13 @@ public class MultipleChoiceQuestion implements Question {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    //For each correct answer we get 1 point
+    @Override
+    public double getScore(Response response) {
+        //TODO:
+        return 0;
     }
 
     public List<String> getIncorrectAnswers() {

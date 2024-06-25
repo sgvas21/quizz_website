@@ -71,31 +71,4 @@ class questionsTest {
         System.out.println("correct answer: " + pcr.getCorrectAnswer());
         System.out.println(pcr);
     }
-
-    @Test
-    public void ResponseQuestion_bean() {
-        int id = -1;
-
-        String question = "What is the capital of South Africa ?";
-        List<String> legalAnswers = new ArrayList<>();
-        legalAnswers.add("Pretoria");
-        legalAnswers.add("Cape Town");
-        legalAnswers.add("Bloemfontein ");
-
-        ResponseQuestion rq = new ResponseQuestion();
-        assertNull(rq.getQuestion());
-        assertNull(rq.getLegalAnswers());
-
-        rq.setQuestion(question);
-        rq.setQuestionId(id);
-        rq.setLegalAnswers(legalAnswers);
-
-        assertNotNull(rq.getQuestion());
-        assertNotNull(rq.getLegalAnswers());
-
-        System.out.println("id: " + rq.getQuestionId());
-        System.out.println("question: " + rq.getQuestion());
-        System.out.println("legal answers: " + rq.getLegalAnswers());
-        System.out.println(rq);
-    }
 }

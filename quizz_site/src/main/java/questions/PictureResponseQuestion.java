@@ -1,5 +1,7 @@
 package questions;
 
+import response.Response;
+
 public class PictureResponseQuestion implements Question{
     private int id;
     private String question;
@@ -23,6 +25,13 @@ public class PictureResponseQuestion implements Question{
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    //For each correct answer we get 1 point
+    @Override
+    public double getScore(Response response) {
+        //TODO:
+        return 0;
     }
 
     public String getPicURL(){
