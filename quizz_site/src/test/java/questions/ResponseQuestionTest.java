@@ -58,4 +58,12 @@ class ResponseQuestionTest {
         assertEquals(0, rq.getScore(response));
     }
 
+    @Test
+    public void Test_GetScore3() {
+        List<String> responseAnswer = new ArrayList<>();
+        responseAnswer.add(null);
+        Response response = new AnswerResponse(responseAnswer);
+
+        assertEquals(0, rq.getScore(response));
+    }
 }

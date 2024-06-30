@@ -2,11 +2,13 @@ package questions;
 
 import response.Response;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-public class Fill_InTheBlankQuestion implements Question{
+public class Fill_InTheBlankQuestion implements Question {
     private int id;
     private String question;
     private List<String> legalAnswers;
@@ -25,13 +27,18 @@ public class Fill_InTheBlankQuestion implements Question{
     @Override
     public double getScore(Response response) {
         Iterator<String> iterator = response.getAllAnswers();
-        double count = 0;
+        int count = 0;
         int idx = 0;
         while (iterator.hasNext()) {
             if (legalAnswers.get(idx).equals(iterator.next())) count++;
             idx++;
         }
-        return count;
+
+        BigDecimal bd = new BigDecimal((double) count / legalAnswers.size());
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        double rounded = bd.doubleValue();
+
+        return rounded;
     }
 
     public void setLegalAnswers(List<String> legalAnswers) { this.legalAnswers = legalAnswers; }
