@@ -5,14 +5,15 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class questionsTest {
 
     @Test
     public void testMultipleChoice_bean() {
         int id = -1;
+        long quiz_id = -2;
 
         String question = "What is next: 1 2 4 8 16 ?";
         List<String> incorrectAnswers = new ArrayList<>();
@@ -28,6 +29,7 @@ class questionsTest {
         assertNull(mcq.getIncorrectAnswers());
 
         mcq.setQuestionId(id);
+        mcq.setQuizId(quiz_id);
         mcq.setQuestion(question);
         mcq.setCorrectAnswer(correctAnswer);
         mcq.setIncorrectAnswers(incorrectAnswers);
@@ -41,6 +43,14 @@ class questionsTest {
         System.out.println("correct answer: " + mcq.getCorrectAnswer());
         System.out.println("incorrect answers: " + mcq.getIncorrectAnswers());
         System.out.println(mcq);
+
+        assertEquals(id, mcq.getQuestionId());
+        assertEquals(quiz_id, mcq.getQuizId());
+        assertEquals(question, mcq.getQuestion());
+        assertEquals(incorrectAnswers.size(), mcq.getNumIncorrectAnswers());
+        assertEquals(correctAnswer, mcq.getCorrectAnswer());
+        assertEquals(incorrectAnswers, mcq.getIncorrectAnswers());
+
     }
     @Test
     public void PictureResponseQuestions_bean() {
@@ -59,7 +69,7 @@ class questionsTest {
         pcr.setQuestionId(id);
         pcr.setQuestion(question);
         pcr.setPicURL(picUrl);
-        pcr.setCorrectAnswer(correctAnswer);
+        pcr.setCorrectAnswer(correctAnswer);    
 
         assertNotNull(pcr.getQuestion());
         assertNotNull(pcr.getCorrectAnswer());

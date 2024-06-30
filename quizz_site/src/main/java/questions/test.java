@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class test {
 
@@ -36,10 +35,10 @@ public class test {
         assertNotNull(mcq.getCorrectAnswer());
         assertNotNull(mcq.getIncorrectAnswers());
 
-        System.out.println("id: " + mcq.getQuestionId());
-        System.out.println("question: " + mcq.getQuestion());
-        System.out.println("correct answer: " + mcq.getCorrectAnswer());
-        System.out.println("incorrect answers: " + mcq.getIncorrectAnswers());
+        assertEquals(question, mcq.getQuestion());
+        assertEquals(correctAnswer, mcq.getCorrectAnswer());
+        assertEquals(incorrectAnswers, mcq.getIncorrectAnswers());
+        
         System.out.println(mcq);
     }
     @Test
