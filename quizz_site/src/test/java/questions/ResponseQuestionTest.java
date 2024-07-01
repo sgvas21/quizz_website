@@ -22,22 +22,10 @@ class ResponseQuestionTest {
         legalAnswers.add("ans3");
         legalAnswers.add("ans4");
 
-        rq = new ResponseQuestion();
-
-        assertNull(rq.getQuestion());
-        assertNull(rq.getLegalAnswers());
-
-        rq.setQuestionId(-1);
-        rq.setQuestion("question1");
-        rq.setLegalAnswers(legalAnswers);
+        rq = new ResponseQuestion("question1", legalAnswers, -1);
 
         assertNotNull(rq.getQuestion());
         assertNotNull(rq.getLegalAnswers());
-
-        System.out.println("id: " + rq.getQuestionId());
-        System.out.println("question: " + rq.getQuestion());
-        System.out.println("legal answers: " + rq.getLegalAnswers());
-        System.out.println(rq);
     }
 
     @Test

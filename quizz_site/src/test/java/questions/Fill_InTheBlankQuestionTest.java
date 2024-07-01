@@ -15,16 +15,10 @@ class Fill_InTheBlankQuestionTest {
     private static Fill_InTheBlankQuestion fq;
     @Test
     public void Test_FillInTheBlankQuestion0() {
-        fq = new Fill_InTheBlankQuestion();
-        assertNull(fq.getQuestion());
-        assertNull(fq.getLegalAnswers());
-
         List<String> legalAnswers = new ArrayList<>();
         legalAnswers.add("ans1");
 
-        fq.setQuestionId(-1);
-        fq.setQuestion("bla bla ___ bla bla bla");
-        fq.setLegalAnswers(legalAnswers);
+        fq = new Fill_InTheBlankQuestion("bla bla ___ bla bla bla", legalAnswers, -1);
 
         List<String> responseAnswer = new ArrayList<>();
         responseAnswer.add("ans1");
@@ -33,24 +27,14 @@ class Fill_InTheBlankQuestionTest {
 
         assertEquals(1, fq.getScore(response));
 
-        System.out.println("id: " + fq.getQuestionId());
-        System.out.println("question: " + fq.getQuestion());
-        System.out.println("legal answers: " + fq.getLegalAnswers());
-        System.out.println(fq);
     }
     @Test
     public void Test_FillInTheBlankQuestion1() {
-        fq = new Fill_InTheBlankQuestion();
-        assertNull(fq.getQuestion());
-        assertNull(fq.getLegalAnswers());
-
         List<String> legalAnswers = new ArrayList<>();
         legalAnswers.add("ans1");
         legalAnswers.add("ans2");
 
-        fq.setQuestionId(0);
-        fq.setQuestion("bla bla ___ bla bla bla ___ bla");
-        fq.setLegalAnswers(legalAnswers);
+        fq = new Fill_InTheBlankQuestion("bla bla ___ bla bla bla ___ bla", legalAnswers, 0);
 
         List<String> responseAnswer = new ArrayList<>();
         responseAnswer.add("ans1");
@@ -59,27 +43,16 @@ class Fill_InTheBlankQuestionTest {
         Response response = new AnswerResponse(responseAnswer);
 
         assertEquals(1, fq.getScore(response));
-
-        System.out.println("id: " + fq.getQuestionId());
-        System.out.println("question: " + fq.getQuestion());
-        System.out.println("legal answers: " + fq.getLegalAnswers());
-        System.out.println(fq);
     }
 
     @Test
     public void Test_FillInTheBlankQuestion2() {
-        fq = new Fill_InTheBlankQuestion();
-        assertNull(fq.getQuestion());
-        assertNull(fq.getLegalAnswers());
-
         List<String> legalAnswers = new ArrayList<>();
         legalAnswers.add("ans1");
         legalAnswers.add("ans2");
         legalAnswers.add("ans3");
 
-        fq.setQuestionId(1);
-        fq.setQuestion("bla bla ___ bla bla bla ___ bla ___ bla bla bla");
-        fq.setLegalAnswers(legalAnswers);
+        fq = new Fill_InTheBlankQuestion("bla bla ___ bla bla bla ___ bla ___ bla bla bla", legalAnswers, 1);
 
         List<String> responseAnswer = new ArrayList<>();
         responseAnswer.add("ans2");
@@ -87,19 +60,10 @@ class Fill_InTheBlankQuestionTest {
         Response response = new AnswerResponse(responseAnswer);
 
         assertEquals(0, fq.getScore(response));
-
-        System.out.println("id: " + fq.getQuestionId());
-        System.out.println("question: " + fq.getQuestion());
-        System.out.println("legal answers: " + fq.getLegalAnswers());
-        System.out.println(fq);
     }
 
     @Test
     public void Test_FillInTheBlankQuestion3() {
-        fq = new Fill_InTheBlankQuestion();
-        assertNull(fq.getQuestion());
-        assertNull(fq.getLegalAnswers());
-
         List<String> legalAnswers = new ArrayList<>();
         legalAnswers.add("ans1");
         legalAnswers.add("ans2");
@@ -108,11 +72,9 @@ class Fill_InTheBlankQuestionTest {
         legalAnswers.add("ans5");
         legalAnswers.add("ans6");
 
-        fq.setQuestionId(2);
-        fq.setQuestion("bla bla ___ bla bla ___ " +
+        fq = new Fill_InTheBlankQuestion("bla bla ___ bla bla ___ " +
                 "bla bla bla ___ bla bla bla ___ " +
-                "bla bla bla bla ___ bla ___ bla");
-        fq.setLegalAnswers(legalAnswers);
+                "bla bla bla bla ___ bla ___ bla", legalAnswers, 2);
 
         List<String> responseAnswer1 = new ArrayList<>();
         responseAnswer1.add("ans1");
@@ -173,10 +135,5 @@ class Fill_InTheBlankQuestionTest {
         responseAnswer7.add(null);
         Response response7 = new AnswerResponse(responseAnswer7);
         assertEquals(0.17, fq.getScore(response7));
-
-        System.out.println("id: " + fq.getQuestionId());
-        System.out.println("question: " + fq.getQuestion());
-        System.out.println("legal answers: " + fq.getLegalAnswers());
-        System.out.println(fq);
     }
 }

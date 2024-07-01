@@ -65,55 +65,70 @@ public class Fill_InTheBlankQuestionDAO implements QuestionDAO{
     }
 
     /**
-     * Retrieves all Fill_InTheBlankQuestion objects for a given quiz ID.
-     * @param quizId The ID of the quiz.
-     * @return A list of Fill_InTheBlankQuestion objects.
-     * @throws SQLException If a database error occurs.
+     * This method retrieves all questions for a given quizId.
+     * It fetches fill-in-the-blank questions and adds them to the result list.
+     *
+     * @param quizId The ID of the quiz for which questions are to be retrieved.
+     * @return A list of questions for the specified quiz.
+     * @throws SQLException If an SQL error occurs during the retrieval process.
      */
     @Override
     public List<Question> getQuestions(long quizId) throws SQLException {
         List<Question> result = new ArrayList<>();
-        List<Fill_InTheBlankQuestion> questions = fetchFillInTheBlankQuestions(quizId);
-        for (Fill_InTheBlankQuestion fq : questions) {
-            List<String> answers = fetchAnswersForQuestion(fq.getQuestionId());
-            fq.setLegalAnswers(answers);
-            result.add(fq);
-        }
+        List<Fill_InTheBlankQuestion> res = getQuestionsFillInTheBlank(quizId);
+        result.addAll(res);
         return result;
     }
 
     /**
-     * Fetches all Fill_InTheBlankQuestion objects for a given quiz ID from the database.
-     * @param quizId The ID of the quiz.
-     * @return A list of Fill_InTheBlankQuestion objects.
-     * @throws SQLException If a database error occurs.
+     * This method retrieves all fill-in-the-blank questions for a given quizId.
+     * It executes a SQL query to fetch the questions and maps the result set to a list of Fill_InTheBlankQuestion objects.
+     *
+     * @param quizId The ID of the quiz for which fill-in-the-blank questions are to be retrieved.
+     * @return A list of fill-in-the-blank questions for the specified quiz.
      */
-    private List<Fill_InTheBlankQuestion> fetchFillInTheBlankQuestions(long quizId) throws SQLException {
-        String sql = "SELECT * FROM FillInTheBlankQuestions WHERE quizId = ?";
-        List<Fill_InTheBlankQuestion> questions = new ArrayList<>();
+    private List<Fill_InTheBlankQuestion> getQuestionsFillInTheBlank(long quizId) {
+        List<Fill_InTheBlankQuestion> result = new ArrayList<>();
 
-        try (PreparedStatement statement = con.prepareStatement(sql)){
-            statement.setLong(1, quizId);
-            try (ResultSet rs = statement.executeQuery()){
-                while (rs.next()) {
-                    Fill_InTheBlankQuestion fq = new Fill_InTheBlankQuestion();
-                    fq.setQuestion(rs.getString("question"));
-                    fq.setQuestionId(rs.getInt("id"));
-                    questions.add(fq);
-                }
+        try (PreparedStatement st = prepareFillInTheBlankStatement(quizId);
+             ResultSet rs = st.executeQuery()) {
+
+            while (rs.next()) {
+                result.add(mapRowToFillInTheBlankQuestion(rs));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return questions;
+
+        return result;
     }
 
     /**
-     * Fetches answers for a specific Fill_InTheBlankQuestion from the database.
-     * @param questionId The ID of the question.
-     * @return A list of answers associated with the question.
-     * @throws SQLException If a database error occurs.
+     * This method prepares a SQL statement for retrieving fill-in-the-blank questions based on the quizId.
+     *
+     * @param quizId The ID of the quiz for which the SQL statement is to be prepared.
+     * @return A prepared statement for retrieving fill-in-the-blank questions.
+     * @throws SQLException If an SQL error occurs during the statement preparation.
      */
-    private List<String> fetchAnswersForQuestion(int questionId) throws SQLException {
-        String sql = "SELECT * FROM FillInTheBlankAnswer WHERE questionId = ?";
-        return ad.getAnswers(questionId, sql);
+    private PreparedStatement prepareFillInTheBlankStatement(long quizId) throws SQLException {
+        PreparedStatement st = con.prepareStatement("SELECT * FROM fillintheblankquestions WHERE quizId=?");
+        st.setLong(1, quizId);
+        return st;
     }
+
+    /**
+     * This method maps a row from the result set to a Fill_InTheBlankQuestion object.
+     *
+     * @param rs The result set containing the query results.
+     * @return A Fill_InTheBlankQuestion object mapped from the current row of the result set.
+     * @throws SQLException If an SQL error occurs during the mapping process.
+     */
+    private Fill_InTheBlankQuestion mapRowToFillInTheBlankQuestion(ResultSet rs) throws SQLException {
+        String question = rs.getString("question");
+        long questionId = rs.getLong("id");
+        String statement = "SELECT * FROM FIllInTheBlankAnswer WHERE questionId = ?;";
+        List<String> legalAnswers = ad.getAnswers(questionId, statement);
+        return new Fill_InTheBlankQuestion(question, legalAnswers, (int) questionId);
+    }
+
 }

@@ -1,5 +1,6 @@
 package DAO;
 
+import questions.Fill_InTheBlankQuestion;
 import questions.Question;
 import questions.ResponseQuestion;
 
@@ -68,58 +69,69 @@ public class ResponseQuestionDAO implements QuestionDAO {
     }
 
     /**
-     * Retrieves all ResponseQuestion objects for a specific quiz from the database.
+     * This method retrieves all questions for a given quizId.
+     * It fetches Response-Question questions and adds them to the result list.
      *
-     * @param quizId The ID of the quiz for which to retrieve questions.
-     * @return A list of Question objects corresponding to the specified quiz.
-     * @throws SQLException If there is any issue with database access or the SQL statement.
+     * @param quizId The ID of the quiz for which questions are to be retrieved.
+     * @return A list of questions for the specified quiz.
+     * @throws SQLException If an SQL error occurs during the retrieval process.
      */
     @Override
     public List<Question> getQuestions(long quizId) throws SQLException {
         List<Question> result = new ArrayList<>();
-        List<ResponseQuestion> questions = fetchResponseQuestions(quizId);
-        for (ResponseQuestion rq : questions) {
-            List<String> answers = fetchAnswersForQuestion(rq.getQuestionId());
-            rq.setLegalAnswers(answers);
-            result.add(rq);
-        }
+        List<ResponseQuestion> res = getQuestionsResponseQuestions(quizId);
+        result.addAll(res);
         return result;
     }
 
     /**
-     * Fetches the ResponseQuestion objects for a specific quiz from the database.
+     * This method retrieves all Response-Question questions for a given quizId.
+     * It executes a SQL query to fetch the questions and maps the result set to a list of Response-Question objects.
      *
-     * @param quizId The ID of the quiz for which to fetch questions.
-     * @return A list of ResponseQuestion objects.
-     * @throws SQLException If there is any issue with database access or the SQL statement.
+     * @param quizId The ID of the quiz for which Response-Question questions are to be retrieved.
+     * @return A list of Response-Question questions for the specified quiz.
      */
-    private List<ResponseQuestion> fetchResponseQuestions(long quizId) throws SQLException {
-        String sql = "SELECT * FROM responsequestions WHERE quizId = ?";
-        List<ResponseQuestion> questions = new ArrayList<>();
+    private List<ResponseQuestion> getQuestionsResponseQuestions(long quizId) {
+        List<ResponseQuestion> result = new ArrayList<>();
 
-        try (PreparedStatement statement = con.prepareStatement(sql)) {
-            statement.setLong(1, quizId);
-            try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    ResponseQuestion rq = new ResponseQuestion();
-                    rq.setQuestion(rs.getString("question"));
-                    rq.setQuestionId(rs.getInt("id"));
-                    questions.add(rq);
-                }
+        try (PreparedStatement st = prepareResponseQuestionStatement(quizId);
+             ResultSet rs = st.executeQuery()) {
+
+            while (rs.next()) {
+                result.add(mapRowToResponseQuestion(rs));
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return questions;
+
+        return result;
     }
 
     /**
-     * Fetches the answers for a specific question from the database.
+     * This method prepares a SQL statement for retrieving Response-Question questions based on the quizId.
      *
-     * @param questionId The ID of the question for which to fetch answers.
-     * @return A list of answers.
-     * @throws SQLException If there is any issue with database access or the SQL statement.
+     * @param quizId The ID of the quiz for which the SQL statement is to be prepared.
+     * @return A prepared statement for retrieving Response-Question questions.
+     * @throws SQLException If an SQL error occurs during the statement preparation.
      */
-    private List<String> fetchAnswersForQuestion(long questionId) throws SQLException {
-        String sql = "SELECT * FROM responsequestionsanswer WHERE questionId = ?";
-        return ad.getAnswers(questionId, sql);
+    private PreparedStatement prepareResponseQuestionStatement(long quizId) throws SQLException {
+        PreparedStatement st = con.prepareStatement("SELECT * FROM responsequestions WHERE quizId=?");
+        st.setLong(1, quizId);
+        return st;
+    }
+
+    /**
+     * This method maps a row from the result set to a Response-Question object.
+     *
+     * @param rs The result set containing the query results.
+     * @return A Response-Question object mapped from the current row of the result set.
+     * @throws SQLException If an SQL error occurs during the mapping process.
+     */
+    private ResponseQuestion mapRowToResponseQuestion(ResultSet rs) throws SQLException {
+        String question = rs.getString("question");
+        long questionId = rs.getLong("id");
+        String statement = "SELECT * FROM ResponseQuestionsAnswer WHERE questionId = ?;";
+        List<String> legalAnswers = ad.getAnswers(questionId, statement);
+        return new ResponseQuestion(question, legalAnswers, (int) questionId);
     }
 }

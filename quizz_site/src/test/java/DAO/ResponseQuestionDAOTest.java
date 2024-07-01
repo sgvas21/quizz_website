@@ -37,20 +37,14 @@ class ResponseQuestionDAOTest {
         List<String> legalAnswers1 = new ArrayList<>();
         legalAnswers1.add("Paris");
 
-        rq1 = new ResponseQuestion();
-        rq1.setQuestionId(1);
-        rq1.setQuestion(question1);
-        rq1.setLegalAnswers(legalAnswers1);
+        rq1 = new ResponseQuestion(question1, legalAnswers1, 1);
 
         String question2 = "Who wrote the play \"Romeo and Juliet\" ?";
         List<String> legalAnswers2 = new ArrayList<>();
         legalAnswers2.add("William Shakespeare");
         legalAnswers2.add("Shakespeare");
 
-        rq2 = new ResponseQuestion();
-        rq2.setQuestionId(2);
-        rq2.setQuestion(question2);
-        rq2.setLegalAnswers(legalAnswers2);
+        rq2 = new ResponseQuestion(question2, legalAnswers2, 2);
 
         String question3 = "Name The President of the United States";
         List<String> legalAnswers3 = new ArrayList<>();
@@ -60,10 +54,7 @@ class ResponseQuestionDAOTest {
         legalAnswers3.add("Donald Trump");
         legalAnswers3.add("Trump");
 
-        rq3 = new ResponseQuestion();
-        rq3.setQuestionId(3);
-        rq3.setQuestion(question3);
-        rq3.setLegalAnswers(legalAnswers3);
+        rq3 = new ResponseQuestion(question3, legalAnswers3, 3);
 
         PreparedStatement ps = con.prepareStatement(
                 "INSERT INTO users(username, hashedPassword, isAdmin, firstName, lastName) VALUES ('un', " +

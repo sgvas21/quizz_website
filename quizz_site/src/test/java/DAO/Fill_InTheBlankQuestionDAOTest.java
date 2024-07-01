@@ -37,20 +37,14 @@ class Fill_InTheBlankQuestionDAOTest {
         List<String> legalAnswers1 = new ArrayList<>();
         legalAnswers1.add("ans1");
 
-        fbq1 = new Fill_InTheBlankQuestion();
-        fbq1.setQuestionId(1);
-        fbq1.setQuestion(question1);
-        fbq1.setLegalAnswers(legalAnswers1);
+        fbq1 = new Fill_InTheBlankQuestion(question1, legalAnswers1, 1);
 
         String question2 = "bla bla bla ___ bla ___ bla bla";
         List<String> legalAnswers2 = new ArrayList<>();
         legalAnswers2.add("ans1");
         legalAnswers2.add("ans2");
 
-        fbq2 = new Fill_InTheBlankQuestion();
-        fbq2.setQuestionId(2);
-        fbq2.setQuestion(question2);
-        fbq2.setLegalAnswers(legalAnswers2);
+        fbq2 = new Fill_InTheBlankQuestion(question2, legalAnswers2, 2);
 
         String question3 = "bla bla bla ___ bla ___" +
                 "bla bla ___ bla bla bla ___ bla";
@@ -60,10 +54,7 @@ class Fill_InTheBlankQuestionDAOTest {
         legalAnswers3.add("ans3");
         legalAnswers3.add("ans4");
 
-        fbq3 = new Fill_InTheBlankQuestion();
-        fbq3.setQuestionId(3);
-        fbq3.setQuestion(question3);
-        fbq3.setLegalAnswers(legalAnswers3);
+        fbq3 = new Fill_InTheBlankQuestion(question3, legalAnswers3, 3);
 
         PreparedStatement ps = con.prepareStatement(
                 "INSERT INTO users(username, hashedPassword, isAdmin, firstName, lastName) VALUES ('un', " +

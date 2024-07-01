@@ -8,21 +8,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-public class Fill_InTheBlankQuestion implements Question {
-    private int id;
-    private String question;
-    private List<String> legalAnswers;
-    @Override
-    public int getQuestionId() { return id; }
+public class Fill_InTheBlankQuestion extends ResponseFill_InTheBlankQuestion {
 
-    @Override
-    public void setQuestionId(int questionId) { this.id = questionId; }
-
-    @Override
-    public String getQuestion() { return question; }
-
-    @Override
-    public void setQuestion(String question) { this.question = question; }
+    public Fill_InTheBlankQuestion(String question, List<String> legalAnswers, int id) {
+        super(question, legalAnswers, id);
+    }
 
     @Override
     public double getScore(Response response) {
@@ -30,27 +20,14 @@ public class Fill_InTheBlankQuestion implements Question {
         int count = 0;
         int idx = 0;
         while (iterator.hasNext()) {
-            if (legalAnswers.get(idx).equals(iterator.next())) count++;
+            if (getLegalAnswers().get(idx).equals(iterator.next())) count++;
             idx++;
         }
 
-        BigDecimal bd = new BigDecimal((double) count / legalAnswers.size());
+        BigDecimal bd = new BigDecimal((double) count / getLegalAnswers().size());
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         double rounded = bd.doubleValue();
 
         return rounded;
-    }
-
-    public void setLegalAnswers(List<String> legalAnswers) { this.legalAnswers = legalAnswers; }
-
-    public List<String> getLegalAnswers() { return legalAnswers; }
-
-    @Override
-    public String toString() {
-        return "Fill_InTheBlankQuestion {" +
-                "id=" + this.id +
-                ", question='" + this.question + '\'' +
-                ", legal answers='" + this.legalAnswers.toString() + '\'' +
-                '}';
     }
 }
