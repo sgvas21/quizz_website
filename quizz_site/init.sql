@@ -18,18 +18,18 @@ create table quizzes(
     foreign key(author) references users(id) on delete cascade
 );
 
-# create table MultipleChoiceQuestions(
-#                                         id INT UNIQUE PRIMARY KEY AUTO_INCREMENT,
-#                                         question VARCHAR(255) UNIQUE not null,
-#                                         correctAnswer VARCHAR(255) not null
-# );
-#
-# create table MultipleChoiceQuestionsWrongAnswers(
-#                                         id INT UNIQUE PRIMARY KEY AUTO_INCREMENT,
-#                                         questionId INT not null,
-#                                         incorrectAnswer VARCHAR(255) not null,
-#                                         CONSTRAINT fk_questionId FOREIGN KEY(questionId) REFERENCES MultipleChoiceQuestions(id)
-# );
+create table MultipleChoiceQuestions(
+                                        id INT UNIQUE PRIMARY KEY AUTO_INCREMENT,
+                                        question VARCHAR(255) not null,
+                                        quiz_id VARCHAR(255) not null
+);
+
+create table MultipleChoiceQuestionAnswers(
+                                        id INT UNIQUE PRIMARY KEY AUTO_INCREMENT,
+                                        question_id INT not null,
+                                        answer VARCHAR(255) not null,
+                                        is_correct_answer BOOLEAN not null
+);
 
 create table ResponseQuestions(
     id INT UNIQUE PRIMARY KEY AUTO_INCREMENT,

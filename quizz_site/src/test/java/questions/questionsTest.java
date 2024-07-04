@@ -13,7 +13,6 @@ class questionsTest {
     @Test
     public void testMultipleChoice_bean() {
         int id = -1;
-        long quiz_id = -2;
 
         String question = "What is next: 1 2 4 8 16 ?";
         List<String> incorrectAnswers = new ArrayList<>();
@@ -29,7 +28,6 @@ class questionsTest {
         assertNull(mcq.getIncorrectAnswers());
 
         mcq.setQuestionId(id);
-        mcq.setQuizId(quiz_id);
         mcq.setQuestion(question);
         mcq.setCorrectAnswer(correctAnswer);
         mcq.setIncorrectAnswers(incorrectAnswers);
@@ -45,9 +43,7 @@ class questionsTest {
         System.out.println(mcq);
 
         assertEquals(id, mcq.getQuestionId());
-        assertEquals(quiz_id, mcq.getQuizId());
         assertEquals(question, mcq.getQuestion());
-        assertEquals(incorrectAnswers.size(), mcq.getNumIncorrectAnswers());
         assertEquals(correctAnswer, mcq.getCorrectAnswer());
         assertEquals(incorrectAnswers, mcq.getIncorrectAnswers());
 

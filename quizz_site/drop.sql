@@ -1,7 +1,7 @@
 use databaza;
 
-# drop table MultipleChoiceQuestionsWrongAnswers;
-# drop table MultipleChoiceQuestions;
+drop table if exists MultipleChoiceQuestions;
+drop table if exists MultipleChoiceQuestionAnswers;
 drop table if exists FillInTheBlankAnswer;
 drop table if exists fillintheblankquestions;
 drop table if exists ResponseQuestionsAnswer;
@@ -25,6 +25,19 @@ create table quizzes(
                         author INT not null,
                         quizName varchar(200) not null,
                         foreign key(author) references users(id) on delete cascade
+);
+
+create table MultipleChoiceQuestions(
+                                        id INT UNIQUE PRIMARY KEY AUTO_INCREMENT,
+                                        question VARCHAR(255) not null,
+                                        quiz_id VARCHAR(255) not null
+);
+
+create table MultipleChoiceQuestionAnswers(
+                                              id INT UNIQUE PRIMARY KEY AUTO_INCREMENT,
+                                              question_id INT not null,
+                                              answer VARCHAR(255) not null,
+                                              is_correct_answer BOOLEAN not null
 );
 
 create table ResponseQuestions(

@@ -8,125 +8,87 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MultipleChoiceQuestionDAO implements QuestionDAO {
-    private String jdbcURL;
-    private String jdbcUsername;
-    private String jdbcPassword;
-    private Connection jdbcConnection;
+    private final Connection jdbcConnection;
+    private final AnswerDAO answerDAO;
 
-    private static final String INCORRECT_ANSWER_NAME = "incorrectAnswer";
-
-    MultipleChoiceQuestionDAO(String jdbcURL, String jdbcUsername, String jdbcPassword) {
-        this.jdbcURL = jdbcURL;
-        this.jdbcUsername = jdbcUsername;
-        this.jdbcPassword = jdbcPassword;
+    MultipleChoiceQuestionDAO(Connection connection) {
+        this.jdbcConnection = connection;
+        this.answerDAO = new AnswerDAO(jdbcConnection);
     }
-
-    protected void connect() throws SQLException {
-        if (jdbcConnection == null || jdbcConnection.isClosed()) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                throw new SQLException(e);
-            }
-            jdbcConnection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-        }
-    }
-
-    protected void disconnect() throws SQLException {
-        if (jdbcConnection != null && !jdbcConnection.isClosed()) {
-            jdbcConnection.close();
-        }
-    }
-
 
     @Override
-    public void addQuestion(Question question, long quiz_id) throws SQLException {
-        if(!(question instanceof MultipleChoiceQuestion)) {
-            throw new IllegalArgumentException("Invalid question type");
-        }
+    public void addQuestion(Question question, long quizId) throws SQLException {
+//        if(!(question instanceof MultipleChoiceQuestion)) {
+//            throw new IllegalArgumentException("Invalid question type");
+//        }
 
         MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) question;
-        int numIncorrectAnswers = mcq.getNumIncorrectAnswers();
 
-        String sql = "INSERT INTO MultipleChoiceQuestions (quiz_id, question, numIncorrectAnswers, correctAnswer" +
-                     getincorrectAnswerAliases(numIncorrectAnswers) +
-                     ") VALUES (?, ?, ?, ?" +
-                     getValueQMarks(numIncorrectAnswers) +
-                     ")";
-        connect();
-
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
-        int parameterIndex = 1;
-        statement.setLong(parameterIndex++, quiz_id);
-        statement.setString(parameterIndex++, mcq.getQuestion());
-        statement.setInt(parameterIndex++, mcq.getNumIncorrectAnswers());
-        statement.setString(parameterIndex++, mcq.getCorrectAnswer());
-        int startIndex = parameterIndex;
-        while(parameterIndex < startIndex + numIncorrectAnswers) {
-            statement.setString(parameterIndex, mcq.getIncorrectAnswers().get(parameterIndex - startIndex));
-            parameterIndex++;
-        }
-
-        statement.executeUpdate();
-        statement.close();
-        disconnect();
+        long questionId = insertMultipleChoiceQuestion(mcq, quizId);
+        mcq.setQuestionId(questionId);
+        insertMultipleChoiceQuestionAnswers(questionId, mcq.getCorrectAnswer(), mcq.getIncorrectAnswers());
     }
 
-    private StringBuffer getincorrectAnswerAliases(int numIncorrectAnswers) {
-        StringBuffer incorrectAnswerAliases = new StringBuffer();
-        for (int i = 1; i <= numIncorrectAnswers; i++) {
-            incorrectAnswerAliases.append(", ").append(INCORRECT_ANSWER_NAME).append(i);
-        }
-        return incorrectAnswerAliases;
+    private long insertMultipleChoiceQuestion(MultipleChoiceQuestion mcq, long quizId) throws SQLException {
+        String sql = "INSERT INTO MultipleChoiceQuestions (question, quiz_id) VALUES (?, ?)";
+        PreparedStatement ps = jdbcConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, mcq.getQuestion());
+        ps.setLong(2, quizId);
+        ps.execute();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if(rs.next())
+            return rs.getLong(1);
+        else throw new SQLException("Failed to retrieve the generated question ID");
+
     }
 
-    private StringBuffer getValueQMarks(int numIncorrectAnswers) {
-        StringBuffer valueQMarks = new StringBuffer();
-        for (int i = 1; i <= numIncorrectAnswers; i++) {
-            valueQMarks.append(", ?");
+    private void insertMultipleChoiceQuestionAnswers(long questionId, String correctAnswer, List<String> incorrectAnswers) throws SQLException {
+        List<String> allAnswers = new ArrayList<>(incorrectAnswers);
+        allAnswers.add(correctAnswer);
+
+        for (int i = 0; i < allAnswers.size(); i++) {
+            String answer = allAnswers.get(i);
+            boolean isCorrectAnswer = answer.equals(correctAnswer);
+            String sql = "INSERT INTO MultipleChoiceQuestionAnswers (question_id, answer, is_correct_answer) VALUES (?, ?, ?)";
+            PreparedStatement ps = jdbcConnection.prepareStatement(sql);
+            ps.setLong(1, questionId);
+            ps.setString(2, answer);
+            ps.setBoolean(3, isCorrectAnswer);
+            ps.executeUpdate();
         }
-        return valueQMarks;
     }
+
 
     @Override
     public List<Question> getQuestions(long quizId) throws SQLException {
         List<Question> result = new ArrayList<>();
-        String query = "SELECT * FROM MultipleChoiceQuestions WHERE quiz_id = ?";
 
-        connect();
-        PreparedStatement statement = jdbcConnection.prepareStatement(query);
-        statement.setLong(1, quizId);
-        ResultSet queryResultSet = statement.executeQuery();
+        String sql = "SELECT * FROM MultipleChoiceQuestions WHERE quiz_id = ?";
+        PreparedStatement ps = jdbcConnection.prepareStatement(sql);
+        ps.setLong(1, quizId);
+        ResultSet rs = ps.executeQuery();
 
-        while (queryResultSet.next()) {
-            int id = queryResultSet.getInt("id");
-            String question = queryResultSet.getString("question");
-            String correctAnswer = queryResultSet.getString("correctAnswer");
+        while(rs.next()) {
+            int id = rs.getInt(1);
+            String question = rs.getString("question");
+            String correctAnswer = getAnswersFromDB(id, true).getFirst();
+            List<String> incorrectAnswers = getAnswersFromDB(id, false);
 
-            MultipleChoiceQuestion mcq = new MultipleChoiceQuestion();
-            mcq.setQuestionId(id);
-            mcq.setQuizId(quizId);
-            mcq.setQuestion(question);
-            mcq.setCorrectAnswer(correctAnswer);
-            mcq.setIncorrectAnswers(getIncorrectAnswersFromQuery(queryResultSet));
-
+            MultipleChoiceQuestion mcq = new MultipleChoiceQuestion(id, question, correctAnswer, incorrectAnswers);
             result.add(mcq);
         }
-
-        disconnect();
 
         return result;
     }
 
-    private List<String> getIncorrectAnswersFromQuery(ResultSet queryResultSet) throws SQLException {
-        List<String> result = new ArrayList<>();
+    private List<String> getAnswersFromDB(int questionId, boolean isCorrectAnswer) throws SQLException {
+        StringBuffer sql = new StringBuffer("SELECT * FROM MultipleChoiceQuestionAnswers WHERE question_id = ? AND is_correct_answer = ");
+        if(isCorrectAnswer)
+            sql.append("1");
+        else
+            sql.append("0");
 
-        int numIncorrectAnswers = queryResultSet.getInt("numIncorrectAnswers");
-        for (int i = 1; i <= numIncorrectAnswers; i++) {
-            String incorrectAnswerAlias = "incorrectAnswer" + i;
-            result.add(queryResultSet.getString(incorrectAnswerAlias));
-        }
-
-        return result;
+        return answerDAO.getAnswers(questionId, sql.toString());
     }
 }
