@@ -6,6 +6,7 @@ import database.DBConnection;
 import response.Response;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 
 public class PictureResponseQuestion implements Question{
@@ -36,17 +37,6 @@ public class PictureResponseQuestion implements Question{
         this.question = question;
     }
 
-    //For each correct answer we get 1 point
-    @Override
-    public double getScore(Response response) {
-        //TODO:
-        return 0;
-    }
-    @Override
-    public QuestionDAO getDao() throws SQLException, ClassNotFoundException {
-        return new PictureResponseQuestionDAO(DBConnection.getConnection());
-    }
-
     public String getPicURL(){
         return picURL;
     }
@@ -63,6 +53,22 @@ public class PictureResponseQuestion implements Question{
         this.legalAnswers = legalAnswers;
     }
 
+    //For each correct answer we get 1 point
+    @Override
+    public double getScore(Response response) {
+        Iterator<String> allAnswers = response.getAllAnswers();
+        double count = 0;
+        while (allAnswers.hasNext()) {
+            allAnswers.next();
+            count += 1.0;
+        }
+        return count;
+    }
+    @Override
+    public QuestionDAO getDao() throws SQLException, ClassNotFoundException {
+        return new PictureResponseQuestionDAO(DBConnection.getConnection());
+    }
+
     @Override
     public String toString() {
         return "PictureResponseQuestion {" +
@@ -72,5 +78,4 @@ public class PictureResponseQuestion implements Question{
                 ", legal answers=" + this.legalAnswers +
                 '}';
     }
-
 }

@@ -1,8 +1,11 @@
 //package questions;
 //
 //import org.junit.jupiter.api.Test;
+//import response.AnswerResponse;
+//import response.Response;
 //
 //import java.util.ArrayList;
+//import java.util.Arrays;
 //import java.util.List;
 //
 //import static org.junit.jupiter.api.Assertions.*;
@@ -54,27 +57,27 @@
 //
 //        String question = "What is next: 1 2 4 8 16 ?";
 //        String picUrl = "https://www.google.com/";
-//        String correctAnswer = "32";
+//        List<String> correctAnswers = Arrays.asList("32");
 //
-//        PictureResponseQuestion pcr = new PictureResponseQuestion();
+//        PictureResponseQuestion pcr = new PictureResponseQuestion(question, correctAnswers, picUrl);
 //
-//        assertNull(pcr.getQuestion());
-//        assertNull(pcr.getCorrectAnswer());
-//        assertNull(pcr.getPicURL());
+//        // Verify initial state
+//        assertEquals(0, pcr.getQuestionId());  // ID should be 0 initially
+//        assertEquals(question, pcr.getQuestion());
+//        assertEquals(picUrl, pcr.getPicURL());
+//        assertEquals(correctAnswers, pcr.getLegalAnswers());
 //
+//        // Set properties
 //        pcr.setQuestionId(id);
-//        pcr.setQuestion(question);
-//        pcr.setPicURL(picUrl);
-//        pcr.setCorrectAnswer(correctAnswer);
 //
-//        assertNotNull(pcr.getQuestion());
-//        assertNotNull(pcr.getCorrectAnswer());
-//        assertNotNull(pcr.getPicURL());
+//        // Verify the properties have been set correctly
+//        assertEquals(id, pcr.getQuestionId());
+//        assertEquals(question, pcr.getQuestion());
+//        assertEquals(picUrl, pcr.getPicURL());
+//        assertEquals(correctAnswers, pcr.getLegalAnswers());
 //
-//        System.out.println("id: " + pcr.getQuestionId());
-//        System.out.println("question: " + pcr.getQuestion());
-//        System.out.println("picURL: " + pcr.getPicURL());
-//        System.out.println("correct answer: " + pcr.getCorrectAnswer());
-//        System.out.println(pcr);
+//        Response response = new AnswerResponse(Arrays.asList("32")); // Assuming Response class has a constructor that accepts a list of answers
+//        double score = pcr.getScore(response);
+//        assertEquals(1.0, score, 0.0);
 //    }
 //}
