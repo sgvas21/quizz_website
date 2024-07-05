@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PictureResponseQuestionDAO implements QuestionDAO {
-    private Connection jdbcConnection;
+    private final Connection jdbcConnection;
+    private final AnswerDAO ad;
 
     public PictureResponseQuestionDAO(Connection jdbcConnection) {
         this.jdbcConnection = jdbcConnection;
+        this.ad = new AnswerDAO(jdbcConnection);
     }
 
     @Override
@@ -19,41 +21,42 @@ public class PictureResponseQuestionDAO implements QuestionDAO {
         if (!(question instanceof PictureResponseQuestion)) {
             throw new IllegalArgumentException("Invalid question type");
         }
-        String sql = "INSERT INTO PictureResponseQuestion (question, picURL, correctAnswer, quiz_id) VALUES (?, ?, ?, ?)";
-
-        PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         PictureResponseQuestion prq = (PictureResponseQuestion) question;
+        PreparedStatement statement = jdbcConnection.prepareStatement(
+                "INSERT INTO PictureResponseQuestions (question, img_url, quizId) VALUES (?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+
         statement.setString(1, prq.getQuestion());
         statement.setString(2, prq.getPicURL());
-        statement.setString(3, prq.getCorrectAnswer());
-        statement.setLong(4, quiz_id);
+        statement.setLong(3, quiz_id);
+        statement.execute();
 
-        statement.executeUpdate();
-        statement.close();
+        ResultSet rs = statement.getGeneratedKeys();
+        rs.next();
+        long questionId = rs.getLong(1);
+
+        List<String> answers = prq.getLegalAnswers();
+        String sql = "INSERT INTO PictureResponseQuestionsAnswers(answer, questionId) VALUES(?, ?);";
+        ad.insertAnswers(sql, questionId, answers);
     }
 
     @Override
     public List<Question> getQuestions(long quizId) throws SQLException {
         List<Question> listQuestion = new ArrayList<>();
-        String sql = "SELECT * FROM PictureResponseQuestion WHERE quiz_id = ?";
+        String sql = "SELECT * FROM PictureResponseQuestions WHERE quizId = ?";
 
         PreparedStatement statement = jdbcConnection.prepareStatement(sql);
         statement.setLong(1, quizId);
         ResultSet resultSet = statement.executeQuery();
 
         while (resultSet.next()) {
-            int id = resultSet.getInt("id");
+            long questionId = resultSet.getLong("id");
             String questionText = resultSet.getString("question");
-            String picURL = resultSet.getString("picURL");
-            String correctAnswer = resultSet.getString("correctAnswer");
+            String picURL = resultSet.getString("img_url");
 
-            PictureResponseQuestion question = new PictureResponseQuestion();
-            question.setQuestionId(id);
-            question.setQuestion(questionText);
-            question.setPicURL(picURL);
-            question.setCorrectAnswer(correctAnswer);
-
-            listQuestion.add(question);
+            String s = "SELECT * FROM pictureresponsequestionsanswers WHERE questionId = ?;";
+            List<String> legalAnswers = ad.getAnswers(questionId, s);
+            PictureResponseQuestion pq = new PictureResponseQuestion(questionText, legalAnswers, picURL);
+            listQuestion.add(pq);
         }
 
         resultSet.close();

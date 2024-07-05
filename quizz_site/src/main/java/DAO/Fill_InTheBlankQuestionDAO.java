@@ -60,7 +60,7 @@ public class Fill_InTheBlankQuestionDAO implements QuestionDAO{
      * @throws SQLException If a database error occurs.
      */
     private void insertFill_InTheBlankQuestionAnswers(List<String> answers, long questionId) throws SQLException {
-        String sql = "INSERT INTO FillInTheBlankAnswer(answer, questionId) VALUES (?, ?)";
+        String sql = "INSERT INTO FillInTheBlankQuestionsAnswers(answer, questionId) VALUES (?, ?)";
         ad.insertAnswers(sql, questionId, answers);
     }
 
@@ -126,7 +126,7 @@ public class Fill_InTheBlankQuestionDAO implements QuestionDAO{
     private Fill_InTheBlankQuestion mapRowToFillInTheBlankQuestion(ResultSet rs) throws SQLException {
         String question = rs.getString("question");
         long questionId = rs.getLong("id");
-        String statement = "SELECT * FROM FIllInTheBlankAnswer WHERE questionId = ?;";
+        String statement = "SELECT * FROM FIllInTheBlankQuestionsAnswers WHERE questionId = ?;";
         List<String> legalAnswers = ad.getAnswers(questionId, statement);
         return new Fill_InTheBlankQuestion(question, legalAnswers, (int) questionId);
     }

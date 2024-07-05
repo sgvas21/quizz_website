@@ -61,7 +61,7 @@ public class MultipleChoiceQuestionDAOTest {
         List<String> incorrectAnswers = new ArrayList<>();
         String correctAnswer = "";
         PreparedStatement statement_1 = connection.prepareStatement(
-                "SELECT * FROM MultipleChoiceQuestionAnswers WHERE question_id=?;");
+                "SELECT * FROM MultipleChoiceQuestionsAnswers WHERE question_id=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) {
@@ -83,7 +83,7 @@ public class MultipleChoiceQuestionDAOTest {
     }
 
     private void deleteQuestionFromDB(long questionId) throws SQLException, ClassNotFoundException {
-        String sqlDeleteAnswers = "DELETE FROM MultipleChoiceQuestionAnswers WHERE question_id=?;";
+        String sqlDeleteAnswers = "DELETE FROM MultipleChoiceQuestionsAnswers WHERE question_id=?;";
         PreparedStatement statement1 = connection.prepareStatement(sqlDeleteAnswers);
         statement1.setLong(1, questionId);
         statement1.execute();

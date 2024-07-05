@@ -7,8 +7,8 @@ public class DBConnection {
     private static final String user = "root";
     //private static final String password = "RootRoot12!@";
     private static final String password = "oop2024";
-    private static final String db_name = "databaza";
-    private static final String drop_sql_path = "C:\\Users\\Beka\\Desktop\\quizz_website\\";
+    private static final String db_name = "quizDB";
+    private static final String drop_sql_path = "C:\\Users\\Beka\\Desktop\\quizz_website\\quizz_site\\";
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
 //        Class.forName("org.postgresql.Driver");
 //        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/moresy" + db_name, user, password);

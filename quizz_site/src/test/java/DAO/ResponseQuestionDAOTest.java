@@ -57,10 +57,10 @@ class ResponseQuestionDAOTest {
         rq3 = new ResponseQuestion(question3, legalAnswers3, 3);
 
         PreparedStatement ps = con.prepareStatement(
-                "INSERT INTO users(username, hashedPassword, isAdmin, firstName, lastName) VALUES ('un', " +
-                        "'hp', false, 'fn', 'ln');");
+                "INSERT INTO users(username, hashedPassword, isAdmin, firstName, lastName) " +
+                        "VALUES ('user1', 'psw', false, 'nm', 'ln');");
         PreparedStatement ps2 = con.prepareStatement(
-                "INSERT INTO quizzes(author, quizName) VALUES (1, 'quiz1');");
+                "INSERT INTO quizzes(author, quizName, type) VALUES (1, 'quiz1', 'default');");
 
         ps.execute();
         ps2.execute();
@@ -83,7 +83,7 @@ class ResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswer WHERE questionId=?;");
+                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
@@ -109,7 +109,7 @@ class ResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswer WHERE questionId=?;");
+                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
@@ -136,7 +136,7 @@ class ResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswer WHERE questionId=?;");
+                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
@@ -155,7 +155,7 @@ class ResponseQuestionDAOTest {
 
         List<String> answers2 = new ArrayList<>();
         PreparedStatement statement_2 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswer WHERE questionId=?;");
+                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
         statement_2.setLong(1, questionId2);
         ResultSet result_2 = statement_2.executeQuery();
         while (result_2.next()) answers2.add(result_2.getString("answer"));
@@ -174,7 +174,7 @@ class ResponseQuestionDAOTest {
 
         List<String> answers3 = new ArrayList<>();
         PreparedStatement statement_3 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswer WHERE questionId=?;");
+                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
         statement_3.setLong(1, questionId3);
         ResultSet result_3 = statement_3.executeQuery();
         while (result_3.next()) answers3.add(result_3.getString("answer"));

@@ -2,13 +2,18 @@ package questions;
 
 import response.Response;
 
+import java.util.List;
+
 public class PictureResponseQuestion implements Question{
     private int id;
     private String question;
     private String picURL;
-    private String correctAnswer;
+    private List<String> legalAnswers;
 
-    public PictureResponseQuestion() {
+    public PictureResponseQuestion(String question, List<String> legalAnswers, String picURL) {
+        this.question = question;
+        this.legalAnswers = legalAnswers;
+        this.picURL = picURL;
     }
 
     public int getQuestionId() {
@@ -42,12 +47,12 @@ public class PictureResponseQuestion implements Question{
         this.picURL = picURL;
     }
 
-    public String getCorrectAnswer() {
-        return correctAnswer;
+    public List<String> getLegalAnswers() {
+        return legalAnswers;
     }
 
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
+    public void setCorrectAnswer(List<String> legalAnswers) {
+        this.legalAnswers = legalAnswers;
     }
 
     @Override
@@ -56,7 +61,7 @@ public class PictureResponseQuestion implements Question{
                 "id=" + this.id +
                 ", question='" + this.question + '\'' +
                 ", picURL='" + this.picURL + '\'' +
-                ", correct answers=" + this.correctAnswer +
+                ", legal answers=" + this.legalAnswers +
                 '}';
     }
 

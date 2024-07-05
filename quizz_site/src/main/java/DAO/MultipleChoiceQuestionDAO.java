@@ -46,7 +46,7 @@ public class MultipleChoiceQuestionDAO implements QuestionDAO {
     private void insertMultipleChoiceQuestionAnswers(long questionId, String correctAnswer, List<String> incorrectAnswers) throws SQLException {
         List<String> allAnswers = new ArrayList<>(incorrectAnswers);
         allAnswers.add(correctAnswer);
-
+    
         for (int i = 0; i < allAnswers.size(); i++) {
             String answer = allAnswers.get(i);
             boolean isCorrectAnswer = answer.equals(correctAnswer);

@@ -64,7 +64,7 @@ public class ResponseQuestionDAO implements QuestionDAO {
      * @throws SQLException If there is any issue with database access or the SQL statement.
      */
     private void insertResponseQuestionAnswers(List<String> answers, long questionId) throws SQLException {
-        String sql = "INSERT INTO responsequestionsanswer(answer, questionId) VALUES (?, ?)";
+        String sql = "INSERT INTO responsequestionsanswers(answer, questionId) VALUES (?, ?)";
         ad.insertAnswers(sql, questionId, answers);
     }
 
@@ -130,7 +130,7 @@ public class ResponseQuestionDAO implements QuestionDAO {
     private ResponseQuestion mapRowToResponseQuestion(ResultSet rs) throws SQLException {
         String question = rs.getString("question");
         long questionId = rs.getLong("id");
-        String statement = "SELECT * FROM ResponseQuestionsAnswer WHERE questionId = ?;";
+        String statement = "SELECT * FROM ResponseQuestionsAnswers WHERE questionId = ?;";
         List<String> legalAnswers = ad.getAnswers(questionId, statement);
         return new ResponseQuestion(question, legalAnswers, (int) questionId);
     }
