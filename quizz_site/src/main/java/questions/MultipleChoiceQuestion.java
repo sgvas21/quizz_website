@@ -1,7 +1,11 @@
 package questions;
 
+import DAO.MultipleChoiceQuestionDAO;
+import DAO.QuestionDAO;
+import database.DBConnection;
 import response.Response;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -63,7 +67,10 @@ public class MultipleChoiceQuestion implements Question {
         }
         return 0.0;
     }
-
+    @Override
+    public QuestionDAO getDao() throws SQLException, ClassNotFoundException {
+        return new MultipleChoiceQuestionDAO(DBConnection.getConnection());
+    }
     @Override
     public String toString() {
         return "MultipleQuestion {" +

@@ -1,7 +1,11 @@
 package questions;
 
+import DAO.PictureResponseQuestionDAO;
+import DAO.QuestionDAO;
+import database.DBConnection;
 import response.Response;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class PictureResponseQuestion implements Question{
@@ -37,6 +41,10 @@ public class PictureResponseQuestion implements Question{
     public double getScore(Response response) {
         //TODO:
         return 0;
+    }
+    @Override
+    public QuestionDAO getDao() throws SQLException, ClassNotFoundException {
+        return new PictureResponseQuestionDAO(DBConnection.getConnection());
     }
 
     public String getPicURL(){
