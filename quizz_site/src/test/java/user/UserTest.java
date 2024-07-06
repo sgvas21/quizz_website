@@ -25,10 +25,10 @@ public class UserTest {
         userEmpty = new User();
 
         //With ID
-        userAdmin = new User(ADMIN_ID, ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_FIRSTNAME, "", true);
+        userAdmin = new User(ADMIN_ID, ADMIN_USERNAME, Hash.hashingPassword(ADMIN_PASSWORD), ADMIN_FIRSTNAME, "", true);
 
         //Without ID
-        userNonAdmin = new User(NONADMIN_USERNAME, NONADMIN_PASSWORD, NONADMIN_FIRSTNAME, NONADMIN_SURNAME, false);
+        userNonAdmin = new User(NONADMIN_USERNAME, Hash.hashingPassword(NONADMIN_PASSWORD), NONADMIN_FIRSTNAME, NONADMIN_SURNAME, false);
 
         //Test Copy
         userNonAdminCopy = new User(userNonAdmin);
@@ -95,7 +95,7 @@ public class UserTest {
         assertEquals(userId, userEmpty.getId());
         assertEquals(username, userEmpty.getUsername());
         assertNotEquals(password, userEmpty.getPassword());
-        assertEquals(Hash.hashingPassword(password), userEmpty.getFirstname());
+        assertEquals(Hash.hashingPassword(password), userEmpty.getPassword());
         assertEquals(firstname, userEmpty.getFirstname());
         assertEquals(surname, userEmpty.getLastname());
         assertFalse(userEmpty.hasAdminPrivileges());
