@@ -44,24 +44,21 @@ public class MultipleChoiceQuestionDAOTest {
         MultipleChoiceQuestionDAO mcqDAO = new MultipleChoiceQuestionDAO(connection);
         mcqDAO.addQuestion(sampleMCQ, SAMPLE_MCQ_QUIZ_ID);
 
-        MultipleChoiceQuestion returnedMCQFromDB = new MultipleChoiceQuestion();
-
-        PreparedStatement statement1 = connection.prepareStatement(
-                "SELECT * FROM MultipleChoiceQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        String query = "SELECT * FROM MultipleChoiceQuestions;";
+        PreparedStatement statement1 = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result1 = statement1.executeQuery();
 
-        result1.last();
+        assertTrue(result1.next());
+
         String text = result1.getString("question");
         long questionId1 = result1.getLong("id");
 
         assertEquals(sampleMCQ.getQuestion(), text);
-        returnedMCQFromDB.setQuestionId(questionId1);
-        returnedMCQFromDB.setQuestion(text);
 
         List<String> incorrectAnswers = new ArrayList<>();
         String correctAnswer = "";
         PreparedStatement statement_1 = connection.prepareStatement(
-                "SELECT * FROM MultipleChoiceQuestionsAnswers WHERE question_id=?;");
+                "SELECT * FROM MultipleChoiceQuestionsAnswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) {
@@ -73,21 +70,12 @@ public class MultipleChoiceQuestionDAOTest {
 
         assertEquals(sampleMCQ.getCorrectAnswer(), correctAnswer);
         assertEquals(sampleMCQ.getIncorrectAnswers(), incorrectAnswers);
-        returnedMCQFromDB.setCorrectAnswer(correctAnswer);
-        returnedMCQFromDB.setIncorrectAnswers(incorrectAnswers);
-
-        assertEquals(sampleMCQ, returnedMCQFromDB);
 
         //Delete From Table
         deleteQuestionFromDB(questionId1);
     }
 
     private void deleteQuestionFromDB(long questionId) throws SQLException, ClassNotFoundException {
-        String sqlDeleteAnswers = "DELETE FROM MultipleChoiceQuestionsAnswers WHERE question_id=?;";
-        PreparedStatement statement1 = connection.prepareStatement(sqlDeleteAnswers);
-        statement1.setLong(1, questionId);
-        statement1.execute();
-
         String sqlDeleteQuestion = "DELETE FROM MultipleChoiceQuestions WHERE id=?;";
         PreparedStatement statement2 = connection.prepareStatement(sqlDeleteQuestion);
         statement2.setLong(1, questionId);

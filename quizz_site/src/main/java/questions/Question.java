@@ -6,10 +6,9 @@ import response.Response;
 import java.sql.SQLException;
 
 public interface Question {
-    //int getQuestionId();
-    //void setQuestionId(int questionId);
+    long getQuestionId();
     String getQuestion();
-    //void setQuestion(String question);
     double getScore(Response response);
+
     QuestionDAO getDao() throws SQLException, ClassNotFoundException;
 }

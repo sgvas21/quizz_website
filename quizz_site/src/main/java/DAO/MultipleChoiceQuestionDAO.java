@@ -30,7 +30,7 @@ public class MultipleChoiceQuestionDAO implements QuestionDAO {
     }
 
     private long insertMultipleChoiceQuestion(MultipleChoiceQuestion mcq, long quizId) throws SQLException {
-        String sql = "INSERT INTO MultipleChoiceQuestions (question, quiz_id) VALUES (?, ?)";
+        String sql = "INSERT INTO MultipleChoiceQuestions (question, quizId) VALUES (?, ?)";
         PreparedStatement ps = jdbcConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, mcq.getQuestion());
         ps.setLong(2, quizId);
