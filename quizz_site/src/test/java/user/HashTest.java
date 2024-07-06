@@ -18,4 +18,15 @@ public class HashTest {
         assertEquals(hash.hashingPassword(), hash2.hashingPassword());
     }
 
+    @Test
+    public void testHash_hash() {
+        String password = "123123123123123123123123123123123123123123123123123";
+        Hash hash = new Hash(password);
+
+        String hashedPassword = Hash.hashingPassword(password);
+
+        assertNotEquals(password, hashedPassword);
+        assertEquals(hash.hashingPassword(), hashedPassword);
+    }
+
 }

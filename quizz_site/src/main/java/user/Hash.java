@@ -22,26 +22,15 @@ public class Hash {
         return buff.toString();
     }
 
-    /*
-    Given a string of hex byte values such as "24a26f", creates
-    a byte[] array of those values, one byte value -128..127
-    for each 2 chars.
-    (provided code)
-    */
-    public static byte[] hexToArray(String hex) {
-        byte[] result = new byte[hex.length()/2];
-        for (int i=0; i<hex.length(); i+=2) {
-            result[i/2] = (byte) Integer.parseInt(hex.substring(i, i+2), 16);
-        }
-        return result;
-    }
-
     public Hash(String password) {
         this.password = password;
     }
 
     public String hashingPassword() {
-//        byte[] salt = hexToArray(password);
+        return hashingPassword(this.password);
+    }
+
+    public static String hashingPassword(String password) {
         byte[] salt = password.getBytes();
 
         try {
