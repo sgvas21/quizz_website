@@ -21,7 +21,8 @@ public class PictureResponseQuestion implements Question{
         this.picURL = picURL;
     }
 
-    public int getQuestionId() {
+    @Override
+    public long getQuestionId() {
         return id;
     }
 

@@ -9,6 +9,5 @@ public interface Question {
     long getQuestionId();
     String getQuestion();
     double getScore(Response response);
-
     QuestionDAO getDao() throws SQLException, ClassNotFoundException;
 }

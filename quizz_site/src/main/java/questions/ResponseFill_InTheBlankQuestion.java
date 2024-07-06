@@ -17,7 +17,8 @@ public abstract class ResponseFill_InTheBlankQuestion implements Question{
         this.legalAnswers = legalAnswers;
     }
 
-    public int getQuestionId() { return id; }
+    @Override
+    public long getQuestionId() { return id; }
     public String getQuestion() { return question; }
     public List<String> getLegalAnswers() {return legalAnswers; }
     public abstract double getScore(Response response);

@@ -50,10 +50,10 @@ public class MultipleChoiceQuestionDAO implements QuestionDAO {
         for (int i = 0; i < allAnswers.size(); i++) {
             String answer = allAnswers.get(i);
             boolean isCorrectAnswer = answer.equals(correctAnswer);
-            String sql = "INSERT INTO MultipleChoiceQuestionAnswers (question_id, answer, is_correct_answer) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO MultipleChoiceQuestionsAnswers (answer, questionId, is_correct_answer) VALUES (?, ?, ?)";
             PreparedStatement ps = jdbcConnection.prepareStatement(sql);
-            ps.setLong(1, questionId);
-            ps.setString(2, answer);
+            ps.setString(1, answer);
+            ps.setLong(2, questionId);
             ps.setBoolean(3, isCorrectAnswer);
             ps.executeUpdate();
         }
@@ -64,7 +64,7 @@ public class MultipleChoiceQuestionDAO implements QuestionDAO {
     public List<Question> getQuestions(long quizId) throws SQLException {
         List<Question> result = new ArrayList<>();
 
-        String sql = "SELECT * FROM MultipleChoiceQuestions WHERE quiz_id = ?";
+        String sql = "SELECT * FROM MultipleChoiceQuestions WHERE quizId = ?";
         PreparedStatement ps = jdbcConnection.prepareStatement(sql);
         ps.setLong(1, quizId);
         ResultSet rs = ps.executeQuery();
@@ -83,7 +83,7 @@ public class MultipleChoiceQuestionDAO implements QuestionDAO {
     }
 
     private List<String> getAnswersFromDB(int questionId, boolean isCorrectAnswer) throws SQLException {
-        StringBuffer sql = new StringBuffer("SELECT * FROM MultipleChoiceQuestionAnswers WHERE question_id = ? AND is_correct_answer = ");
+        StringBuffer sql = new StringBuffer("SELECT * FROM MultipleChoiceQuestionsAnswers WHERE questionId = ? AND is_correct_answer = ");
         if(isCorrectAnswer)
             sql.append("1");
         else

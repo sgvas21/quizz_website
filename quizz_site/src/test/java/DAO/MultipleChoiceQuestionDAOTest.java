@@ -1,12 +1,14 @@
 package DAO;
 
 import database.DBConnection;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import questions.MultipleChoiceQuestion;
 import questions.PictureResponseQuestion;
 import questions.Question;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,8 +19,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MultipleChoiceQuestionDAOTest {
-    private static final long SAMPLE_MCQ_QUIZ_ID = -1;
-    private static final long MULTISAMPLE_MCQ_QUIZ_ID = -2;
+    private static final long SAMPLE_MCQ_QUIZ_ID = 1;
+    private static final int MULTISAMPLE_MCQ_QUIZ_ID = 1;
 
     static Connection connection;
 
@@ -37,6 +39,20 @@ public class MultipleChoiceQuestionDAOTest {
         mcq1 = new MultipleChoiceQuestion("question1", "thisAnswer1", List.of(new String[]{"notAnswer1"}));
         mcq2 = new MultipleChoiceQuestion("question2", "thisAnswer2", List.of(new String[]{"notAnswer1", "notAnswer2"}));
         mcq3 = new MultipleChoiceQuestion("question3", "thisAnswer3", List.of(new String[]{"notAnswer1", "notAnswer2", "notAnswer3"}));
+
+        PreparedStatement ps = connection.prepareStatement(
+                "INSERT INTO users(username, hashedPassword, isAdmin, firstName, lastName) " +
+                        "VALUES ('user1', 'psw', false, 'nm', 'ln');");
+        PreparedStatement ps2 = connection.prepareStatement(
+                "INSERT INTO quizzes(author, quizName, type) VALUES (1, 'quiz1', 'default');");
+
+        ps.execute();
+        ps2.execute();
+    }
+
+    @AfterAll
+    public static void tearDown() throws SQLException, IOException, ClassNotFoundException {
+        DBConnection.resetTables();
     }
 
     @Test
@@ -44,16 +60,19 @@ public class MultipleChoiceQuestionDAOTest {
         MultipleChoiceQuestionDAO mcqDAO = new MultipleChoiceQuestionDAO(connection);
         mcqDAO.addQuestion(sampleMCQ, SAMPLE_MCQ_QUIZ_ID);
 
-        String query = "SELECT * FROM MultipleChoiceQuestions;";
-        PreparedStatement statement1 = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+        MultipleChoiceQuestion returnedMCQFromDB = new MultipleChoiceQuestion();
+
+        PreparedStatement statement1 = connection.prepareStatement(
+                "SELECT * FROM MultipleChoiceQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result1 = statement1.executeQuery();
 
-        assertTrue(result1.next());
-
+        result1.last();
         String text = result1.getString("question");
         long questionId1 = result1.getLong("id");
 
         assertEquals(sampleMCQ.getQuestion(), text);
+        returnedMCQFromDB.setQuestionId(questionId1);
+        returnedMCQFromDB.setQuestion(text);
 
         List<String> incorrectAnswers = new ArrayList<>();
         String correctAnswer = "";
@@ -70,12 +89,21 @@ public class MultipleChoiceQuestionDAOTest {
 
         assertEquals(sampleMCQ.getCorrectAnswer(), correctAnswer);
         assertEquals(sampleMCQ.getIncorrectAnswers(), incorrectAnswers);
+        returnedMCQFromDB.setCorrectAnswer(correctAnswer);
+        returnedMCQFromDB.setIncorrectAnswers(incorrectAnswers);
+
+        assertEquals(sampleMCQ, returnedMCQFromDB);
 
         //Delete From Table
         deleteQuestionFromDB(questionId1);
     }
 
     private void deleteQuestionFromDB(long questionId) throws SQLException, ClassNotFoundException {
+        String sqlDeleteAnswers = "DELETE FROM MultipleChoiceQuestionsAnswers WHERE questionId=?;";
+        PreparedStatement statement1 = connection.prepareStatement(sqlDeleteAnswers);
+        statement1.setLong(1, questionId);
+        statement1.execute();
+
         String sqlDeleteQuestion = "DELETE FROM MultipleChoiceQuestions WHERE id=?;";
         PreparedStatement statement2 = connection.prepareStatement(sqlDeleteQuestion);
         statement2.setLong(1, questionId);
