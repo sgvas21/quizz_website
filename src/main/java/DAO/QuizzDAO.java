@@ -19,13 +19,14 @@ public class QuizzDAO {
     }
 
     // Methods for handling quizzAttempt
-    public void addQuizzAttempt(quizzAttempt attempt) throws SQLException {
-        String sql = "INSERT INTO quizHistory (userId, score, attemptTime) VALUES (?, ?, ?)";
+    public void addQuizzAttempt(quizzAttempt attempt, long quizId) throws SQLException {
+        String sql = "INSERT INTO quizHistory (quizId, userId, score, attemptTime) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement statement = jdbcConnection.prepareStatement(sql)) {
-            statement.setLong(1, attempt.getUserId());
-            statement.setDouble(2, attempt.getScore());
-            statement.setTimestamp(3, attempt.getTimestamp());
+            statement.setLong(1, quizId);
+            statement.setLong(2, attempt.getUserId());
+            statement.setDouble(3, attempt.getScore());
+            statement.setTimestamp(4, attempt.getTimestamp());
             statement.executeUpdate();
         }
     }
@@ -41,7 +42,7 @@ public class QuizzDAO {
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 double score = resultSet.getDouble("score");
-                Timestamp timestamp = resultSet.getTimestamp("timestamp");
+                Timestamp timestamp = resultSet.getTimestamp("attemptTime");
 
                 quizzAttempt attempt = new quizzAttempt(id, userId, score, timestamp);
                 attempts.add(attempt);
@@ -52,12 +53,12 @@ public class QuizzDAO {
     }
 
     // Methods for handling quizz
-    public void addQuizz(quizz quiz) throws SQLException {
-        String sql = "INSERT INTO quizzes (quizName, author, type) VALUES (?, ?, ?)";
+    public void addQuizz(quizz quiz) throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO quizzes (author, quizName, type) VALUES (?, ?, ?)";
 
         try (PreparedStatement statement = jdbcConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, quiz.getName());
-            statement.setLong(2, quiz.getAuthor().getId());
+            statement.setLong(1, quiz.getAuthor().getId());
+            statement.setString(2, quiz.getName());
             statement.setString(3, quiz instanceof randomQuizz ? "random" : "default");
             statement.executeUpdate();
 
@@ -72,6 +73,13 @@ public class QuizzDAO {
         addQuizzHistory(quiz);
     }
 
+    public void removeQuizById(long id) throws SQLException {
+        PreparedStatement statement = jdbcConnection.prepareStatement("DELETE FROM " +
+                "quizzes WHERE id=?");
+        statement.setLong(1, id);
+        statement.executeUpdate();
+    }
+
     public quizz getQuizzById(long id) throws SQLException {
         String sql = "SELECT * FROM quizzes WHERE id = ?";
         quizz quiz = null;
@@ -81,8 +89,8 @@ public class QuizzDAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                String name = resultSet.getString("name");
-                long authorId = resultSet.getLong("authorId");
+                String name = resultSet.getString("quizName");
+                long authorId = resultSet.getLong("author");
                 String type = resultSet.getString("type");
 
                 User author = getUserById(authorId); // Implement this method to get User object
@@ -100,15 +108,10 @@ public class QuizzDAO {
         return quiz;
     }
 
-    private void addQuestions(quizz quiz) throws SQLException {
-        String sql = "INSERT INTO quizzQuestion (quizzId, questionId) VALUES (?, ?)";
-
-        try (PreparedStatement statement = jdbcConnection.prepareStatement(sql)) {
-            for (Question question : quiz.getQuestions()) {
-                statement.setLong(1, quiz.getId());
-                statement.setLong(2, question.getQuestionId()); // Assuming Question class has getId() method
-                statement.executeUpdate();
-            }
+    private void addQuestions(quizz quiz) throws SQLException, ClassNotFoundException {
+        List<Question> questions = quiz.getQuestions();
+        for (Question question : questions) {
+            question.getDao().addQuestion(question, quiz.getId());
         }
     }
 
@@ -130,7 +133,7 @@ public class QuizzDAO {
 
     private void addQuizzHistory(quizz quiz) throws SQLException {
         for (quizzAttempt attempt : quiz.getHistory()) {
-            addQuizzAttempt(attempt);
+            addQuizzAttempt(attempt, quiz.getId());
         }
     }
 
@@ -147,7 +150,7 @@ public class QuizzDAO {
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 double score = resultSet.getDouble("score");
-                Timestamp timestamp = resultSet.getTimestamp("timestamp");
+                Timestamp timestamp = resultSet.getTimestamp("attemptTime");
 
                 quizzAttempt attempt = new quizzAttempt(id, quizzId, score, timestamp);
                 attempts.add(attempt);
@@ -163,4 +166,18 @@ public class QuizzDAO {
         // Implement logic to retrieve a User object by userId
         return (new UserDAO(jdbcConnection)).getUser(userId); // Placeholder return
     }
+
+    public List<quizz> getQuizzes() throws SQLException {
+        List<quizz> res = new ArrayList<>();
+        String query = "SELECT * FROM quizzes ORDER BY id DESC";
+
+        try (PreparedStatement statement = jdbcConnection.prepareStatement(query);
+             ResultSet rs = statement.executeQuery()) {
+            while (rs.next()) {
+                res.add(getQuizzById(rs.getLong("id")));
+            }
+        }
+        return res;
+    }
+
 }

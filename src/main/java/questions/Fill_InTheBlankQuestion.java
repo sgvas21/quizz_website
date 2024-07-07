@@ -16,6 +16,9 @@ public class Fill_InTheBlankQuestion extends ResponseFill_InTheBlankQuestion {
     public Fill_InTheBlankQuestion(String question, List<String> legalAnswers, int id) {
         super(question, legalAnswers, id);
     }
+    public Fill_InTheBlankQuestion(String question, List<String> legalAnswers) {
+        super(question, legalAnswers);
+    }
     @Override
     public double getScore(Response response) {
         Iterator<String> iterator = response.getAllAnswers();

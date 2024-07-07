@@ -162,7 +162,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void test_GetAttempts_Basic() throws SQLException {
+    public void test_GetAttempts_Basic() throws SQLException, ClassNotFoundException {
         userDAO.createUser(testUser);
 
         sampleQuiz = new defaultQuizz("Sample Quiz", testUser, new ArrayList<>(), new ArrayList<>());
@@ -183,7 +183,7 @@ public class UserDAOTest {
     }
 
     @Test
-    public void test_AddAttempt_GetAttempts() throws SQLException {
+    public void test_AddAttempt_GetAttempts() throws SQLException, ClassNotFoundException {
         //Initialization
         userDAO.createUser(testUser);
         userDAO.createUser(testAdmin);
