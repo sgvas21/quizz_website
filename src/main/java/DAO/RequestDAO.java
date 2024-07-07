@@ -34,7 +34,7 @@ public class RequestDAO {
         ResultSet resultSet = statement.executeQuery();
 
         while (resultSet.next()) {
-            long requestId = resultSet.getLong("requestId");
+            long requestId = resultSet.getLong("id");
             long fromId = resultSet.getLong("fromId");
             long toId = resultSet.getLong("toId");
 

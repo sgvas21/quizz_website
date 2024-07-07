@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import database.DBConnection;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -38,13 +39,18 @@ class RequestDAOTest {
     }
 
     @Test
-    public void testAddAndRetrieveRequest() throws SQLException {
+    public void testAddAndRetrieveRequest() throws SQLException, IOException, ClassNotFoundException {
         request req = new request(testUser.getId(), friendUser.getId());
         requestDao.addRequest(req);
 
         List<request> requests = requestDao.getRequestsByUser(testUser.getId());
         assertFalse(requests.isEmpty());
         assertEquals(friendUser.getId(), requests.get(0).getToId());
+
+        PreparedStatement st = DBConnection.getConnection().prepareStatement
+                ("DELETE FROM requests WHERE fromId =?");
+        st.setLong(1, req.getFromId());
+        st.execute();
     }
 
     @Test
