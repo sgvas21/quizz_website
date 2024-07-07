@@ -159,6 +159,10 @@ public class UserDAOTest {
     //Requirement: createUser() and DeleteUser() already works
     @Test
     public void test_GetUserMethods() throws SQLException {
+        //Check before adding user to DB
+        assertNull(userDAO.getUser(testGetUser.getId()));
+        assertNull(userDAO.getUser(testGetUser.getUsername()));
+
         //Add User To DB
         userDAO.createUser(testGetUser);
 
