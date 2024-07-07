@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,6 +26,7 @@ public class UserDAOTest {
 
     User testCreateUser, testGetUser;
     User testUser, testAdmin;
+    User testFriend1, testFriend2;
 
     //Variables for AttemptTesting
     quizz sampleQuiz;
@@ -49,11 +51,16 @@ public class UserDAOTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws SQLException {
         testCreateUser = new User("create", Hash.hashingPassword("testCreate"), "create", "create", false);
         testGetUser = new User("get", Hash.hashingPassword("testGet"), "get", "get", false);
         testUser = new User(TEST_USERNAME, Hash.hashingPassword("testPassword"), "user", "test", false);
         testAdmin = new User(TEST_ADMIN_USERNAME, Hash.hashingPassword("testAdminPassword"), "admin", "admin", true);
+
+        testFriend1 = new User("friend1", Hash.hashingPassword("testFriend1Password"), "friend", "1", false);
+        testFriend2 = new User("friend2", Hash.hashingPassword("testFriend2Password"), "friend", "2", false);
+
+        userDAO.removeUser(testUser.getId());
     }
 
     @Test
@@ -236,17 +243,85 @@ public class UserDAOTest {
     }
 
     @Test
-    public void test_SetAdminPrivileges() {
-        //Add User
+    public void test_SetAdminPrivileges() throws SQLException {
+        userDAO.createUser(testUser);
 
-        //Get Admin Privileges
+        assertFalse(testUser.hasAdminPrivileges());
 
-        //Change Admin Privileges
+        userDAO.setAdminPrivileges(testUser.getId(), true);
+        testUser = userDAO.getUser(testUser.getId());
 
         //Assert Changes were made ToDo: privileges should affect somewhere to the functionality
+        assertTrue(testUser.hasAdminPrivileges());
 
-        //User Same Set method but don't change
+        userDAO.setAdminPrivileges(testUser.getId(), false);
+        testUser = userDAO.getUser(testUser.getId());
 
-        //Assert Changes remain the same
+        assertFalse(testUser.hasAdminPrivileges());
+
+        userDAO.removeUser(testUser.getId());
+
+        assertNotEquals(testUser, userDAO.getUser(testUser.getId()));
+    }
+
+    @Test
+    public void test_AddFriend_GetFriends_Basic() throws SQLException, ClassNotFoundException {
+        userDAO.createUser(testFriend1);
+        userDAO.createUser(testFriend2);
+
+        assertEquals(0, userDAO.getFriends(testFriend1.getId()).size());
+
+        userDAO.addFriend(testFriend1.getId(), testFriend2.getId());
+
+        Set<User> user1Friends = userDAO.getFriends(testFriend1.getId());
+        Set<User> user2Friends = userDAO.getFriends(testFriend2.getId());
+
+        assertEquals(1, user1Friends.size());
+        assertEquals(1, user2Friends.size());
+
+        assertTrue(user1Friends.contains(testFriend2));
+        assertTrue(user2Friends.contains(testFriend1));
+
+        userDAO.removeUser(testFriend1.getId());
+        userDAO.removeUser(testFriend2.getId());
+
+        assertEquals(0, userDAO.getFriends(testFriend1.getId()).size());
+    }
+
+    @Test
+    public void test_AddFriend_GetFriends_MultipleFriends() throws SQLException {
+        //User
+        userDAO.createUser(testAdmin);
+
+        //Friends
+        userDAO.createUser(testUser);
+        userDAO.createUser(testFriend1);
+        userDAO.createUser(testFriend2);
+
+        userDAO.addFriend(testAdmin.getId(), testUser.getId());
+        userDAO.addFriend(testAdmin.getId(), testFriend1.getId());
+        userDAO.addFriend(testAdmin.getId(), testFriend2.getId());
+
+        assertEquals(3, userDAO.getFriends(testAdmin.getId()).size());
+        assertEquals(1, userDAO.getFriends(testUser.getId()).size());
+        assertEquals(1, userDAO.getFriends(testFriend1.getId()).size());
+        assertEquals(1, userDAO.getFriends(testFriend2.getId()).size());
+
+        Set<User> expectedAdminFriends = Set.of(testFriend1, testFriend2, testUser);
+        Set<User> actualAdminFriends = userDAO.getFriends(testAdmin.getId());
+
+        assertEquals(expectedAdminFriends, actualAdminFriends);
+
+        //Partially Removing
+        userDAO.removeUser(testFriend1.getId());
+        userDAO.removeUser(testFriend2.getId());
+
+        assertTrue(userDAO.getFriends(testAdmin.getId()).contains(testUser));
+
+        userDAO.removeUser(testUser.getId());
+
+        assertEquals(0, userDAO.getFriends(testAdmin.getId()).size());
+
+        userDAO.removeUser(testAdmin.getId());
     }
 }
