@@ -1,6 +1,7 @@
 package DAO;
 
 import database.DBConnection;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,6 +62,11 @@ public class UserDAOTest {
         testFriend2 = new User("friend2", Hash.hashingPassword("testFriend2Password"), "friend", "2", false);
 
         userDAO.removeUser(testUser.getId());
+    }
+
+    @AfterAll
+    public static void tearDown() throws SQLException, IOException, ClassNotFoundException {
+        DBConnection.resetTables();
     }
 
     @Test

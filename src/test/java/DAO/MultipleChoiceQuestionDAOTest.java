@@ -28,8 +28,10 @@ public class MultipleChoiceQuestionDAOTest {
     private static MultipleChoiceQuestion mcq1, mcq2, mcq3;
 
     @BeforeAll
-    public static void initialize() throws ClassNotFoundException, SQLException {
+    public static void initialize() throws ClassNotFoundException, SQLException, IOException {
         connection = DBConnection.getConnection();
+
+        DBConnection.resetTables();
 
         sampleMCQ = new MultipleChoiceQuestion();
         sampleMCQ.setQuestion("What is your name?");
