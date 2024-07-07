@@ -168,6 +168,35 @@ public class UserDAOTest {
         userDAO.removeUser(testGetUser.getId());
     }
 
+
+    @Test
+    public void test_GetCreatedQuizzes() throws SQLException, ClassNotFoundException {
+        userDAO.createUser(testUser);
+
+        assertEquals(0, userDAO.getCreatedQuizzes(testUser.getId()).size());
+
+        sampleQuiz = new defaultQuizz("Sample Quiz", testUser, new ArrayList<>(), new ArrayList<>());
+
+        //Test after quizz adding
+        quizzDAO.addQuizz(sampleQuiz);
+
+        assertEquals(1, userDAO.getCreatedQuizzes(testUser.getId()).size());
+
+        //Test after quizz removing
+        quizzDAO.removeQuizById(sampleQuiz.getId());
+
+        assertEquals(0, userDAO.getCreatedQuizzes(testUser.getId()).size());
+
+        //Test after quizz adding + user removing
+        quizzDAO.addQuizz(sampleQuiz);
+
+        assertEquals(1, userDAO.getCreatedQuizzes(testUser.getId()).size());
+
+        userDAO.removeUser(testUser.getId());
+
+        assertEquals(0, userDAO.getCreatedQuizzes(testUser.getId()).size());
+    }
+
     @Test
     public void test_GetAttempts_Basic() throws SQLException, ClassNotFoundException {
         userDAO.createUser(testUser);
