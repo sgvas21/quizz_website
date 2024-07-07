@@ -39,4 +39,13 @@ public class Fill_InTheBlankQuestion extends ResponseFill_InTheBlankQuestion {
     public QuestionDAO getDao() throws SQLException, ClassNotFoundException {
         return new Fill_InTheBlankQuestionDAO(DBConnection.getConnection());
     }
+
+    @Override
+    public String toString() {
+        return "Fill_InTheBlankQuestion {" +
+                "id=" + getQuestionId() +
+                ", question='" + getQuestion() + '\'' +
+                ", legal answers=" + getLegalAnswers() +
+                '}';
+    }
 }
