@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dfccfb7c-a03b-4c16-9073-439720ef7077" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2iphmYRvApQxB0JVOUdJRZQdp5L" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.PictureResponseQuestionTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuizzAttemptTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuizzTests (1).executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuizzTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuizzTests.testDefaultQuizz.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.QuizzTests.testRandomQuizz.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.defaultQuizzTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.defaultQuizzTests.testDefaultQuizz.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.questionsTest.PictureResponseQuestions_bean.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.randomQuizzTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.test.PictureResponseQuestions_bean.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/gvaso/Desktop/OOP project/quizz_website&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="quizz" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.PictureResponseQuestionTest">
+    <configuration name="PictureResponseQuestionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="quizz_site" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="questions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="questions" />
+      <option name="MAIN_CLASS_NAME" value="questions.PictureResponseQuestionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QuizzAttemptTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="quizz_site" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="quizz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="quizz" />
+      <option name="MAIN_CLASS_NAME" value="quizz.QuizzAttemptTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="QuizzTests.testDefaultQuizz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="quizz_site" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="quizz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="quizz" />
+      <option name="MAIN_CLASS_NAME" value="quizz.QuizzTests" />
+      <option name="METHOD_NAME" value="testDefaultQuizz" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="defaultQuizzTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="quizz_site" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="quizz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="quizz" />
+      <option name="MAIN_CLASS_NAME" value="quizz.defaultQuizzTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="randomQuizzTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="quizz_site" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="quizz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="quizz" />
+      <option name="MAIN_CLASS_NAME" value="quizz.randomQuizzTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.PictureResponseQuestionTest" />
+        <item itemvalue="JUnit.QuizzAttemptTests" />
+        <item itemvalue="JUnit.randomQuizzTests" />
+        <item itemvalue="JUnit.defaultQuizzTests" />
+        <item itemvalue="JUnit.QuizzTests.testDefaultQuizz" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dfccfb7c-a03b-4c16-9073-439720ef7077" name="Changes" comment="" />
+      <created>1720193586825</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1720193586825</updated>
+      <workItem from="1720193589037" duration="6974000" />
+      <workItem from="1720294520050" duration="116000" />
+      <workItem from="1720294724909" duration="101000" />
+      <workItem from="1720295522330" duration="37000" />
+      <workItem from="1720348727069" duration="8000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
