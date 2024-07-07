@@ -72,7 +72,7 @@ public class MultipleChoiceQuestionDAO implements QuestionDAO {
         while(rs.next()) {
             int id = rs.getInt(1);
             String question = rs.getString("question");
-            String correctAnswer = getAnswersFromDB(id, true).getFirst();
+            String correctAnswer = getAnswersFromDB(id, true).get(0);
             List<String> incorrectAnswers = getAnswersFromDB(id, false);
 
             MultipleChoiceQuestion mcq = new MultipleChoiceQuestion(id, question, correctAnswer, incorrectAnswers);

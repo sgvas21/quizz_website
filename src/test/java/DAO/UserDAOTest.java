@@ -211,7 +211,7 @@ public class UserDAOTest {
         List<UserAttemptResult> attemptsListFromDB = userDAO.getAttempts(testUser.getId());
         assertEquals(1, attemptsListFromDB.size());
 
-        assertEquals(userAttemptResult1, attemptsListFromDB.getFirst());
+        assertEquals(userAttemptResult1, attemptsListFromDB.get(0));
 
         userDAO.removeUser(testUser.getId());
 
