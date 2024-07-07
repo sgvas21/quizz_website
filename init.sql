@@ -19,6 +19,16 @@ create table requests(
                          foreign key(toId) references users(id) on delete cascade
 );
 
+create table friends(
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        firstFriendId INT not null,
+                        secondFriendId INT not null,
+                        foreign key(firstFriendId) references users(id) on delete cascade,
+                        foreign key(secondFriendId) references users(id) on delete cascade,
+                        UNIQUE KEY friends_unique_combination (firstFriendId, secondFriendId),
+                        CHECK (firstFriendId != secondFriendId)
+);
+
 create table messages(
                          id int primary key auto_increment,
                          fromId int not null,

@@ -8,7 +8,9 @@ import user.UserAttemptResult;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserDAO {
     private final Connection jdbcConnection;
@@ -205,6 +207,7 @@ public class UserDAO {
 
     /**
      * Modifies admin Privileges of the User
+     * Warning: Does not Update User bean object
      * @param userId unique User ID by the DB.
      * @param admin new true or false value to define user admin state
      * @throws SQLException If a database error occurs. (Incorrect: connection, userId)
@@ -217,5 +220,90 @@ public class UserDAO {
         updateStatement.setLong(2, userId);
 
         updateStatement.execute();
+    }
+
+    /**
+     * Adds a pair of users with ID which become friends in DB.
+     * Stores only 1 row in DB, meaning that the second friend is also friend of the first friend.
+     * @param userId first friend ID
+     * @param friendId second friend ID
+     * @throws SQLException If a database error occurs.
+     */
+    public void addFriend(long userId, long friendId) throws SQLException {
+        String query = "INSERT INTO friends (firstFriendId, secondFriendId) VALUES (?, ?);";
+        PreparedStatement insertingStatement = jdbcConnection.prepareStatement(query);
+        insertingStatement.setLong(1, userId);
+        insertingStatement.setLong(2, friendId);
+        insertingStatement.execute();
+    }
+
+    /**
+     * Return List of Users for a user with ID.
+     * @param userId Id of the User in DB.
+     * @return List of User objects of the friends
+     * @throws SQLException If a database error occurs.
+     * @dependency Method: getUser();
+     */
+    public Set<User> getFriends(int userId) throws SQLException {
+        Set<User> friends = new HashSet<>();
+
+        friends.addAll(getFriendsAsFirst(userId));
+        friends.addAll(getFriendsAsSecond(userId));
+
+        return friends;
+    }
+
+    /**
+     * Helper Method. Gives list of friend where user Id is 'firstFriendId' in the DB.
+     * @param userId user whose friend list is provided
+     * @return List of User objects from the DB.
+     * @throws SQLException If a database error occurs.
+     * @dependency Method: getUser();
+     */
+    private List<User> getFriendsAsFirst(long userId) throws SQLException {
+        List<User> result = new ArrayList<>();
+
+        String query = "SELECT * FROM friends WHERE firstFriendId = ?;";
+        PreparedStatement selectFirstStatement = jdbcConnection.prepareStatement(query);
+        selectFirstStatement.setLong(1, userId);
+
+        ResultSet resultSet = selectFirstStatement.executeQuery();
+        List<Integer> friendsIds = new ArrayList<>();
+        while(resultSet.next()) {
+            friendsIds.add(resultSet.getInt("secondFriendId"));
+        }
+
+        for(Integer friendId : friendsIds) {
+            result.add(getUser(friendId));
+        }
+
+        return result;
+    }
+
+    /**
+     * Helper Method. Gives list of friend where user ID is 'secondFriendId' in the DB.
+     * @param userId user whose friend list is provided
+     * @return List of User objects from the DB.
+     * @throws SQLException If a database error occurs.
+     * @dependency Method: getUser();
+     */
+    private List<User> getFriendsAsSecond(int userId) throws SQLException {
+        List<User> result = new ArrayList<>();
+
+        String query = "SELECT * FROM friends WHERE secondFriendId = ?;";
+        PreparedStatement selectFirstStatement = jdbcConnection.prepareStatement(query);
+        selectFirstStatement.setLong(1, userId);
+
+        ResultSet resultSet = selectFirstStatement.executeQuery();
+        List<Integer> friendsIds = new ArrayList<>();
+        while(resultSet.next()) {
+            friendsIds.add(resultSet.getInt("firstFriendId"));
+        }
+
+        for(Integer friendId : friendsIds) {
+            result.add(getUser(friendId));
+        }
+
+        return result;
     }
 }

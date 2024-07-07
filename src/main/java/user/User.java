@@ -83,4 +83,9 @@ public class User {
                 Objects.equals(this.lastname, that.lastname) &&
                 Objects.equals(this.adminPrivileges, that.adminPrivileges);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, firstname, lastname, adminPrivileges);
+    }
 }

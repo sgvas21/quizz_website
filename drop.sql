@@ -11,6 +11,7 @@ drop table if exists ResponseQuestions;
 drop table if exists quizHistory;
 drop table if exists messages;
 drop table if exists requests;
+drop table if exists friends;
 drop table if exists quizzes;
 drop table if exists users;
 
@@ -29,6 +30,16 @@ create table requests(
                          toId int not null,
                          foreign key(fromId) references users(id) on delete cascade,
                          foreign key(toId) references users(id) on delete cascade
+);
+
+create table friends(
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        firstFriendId INT not null,
+                        secondFriendId INT not null,
+                        foreign key(firstFriendId) references users(id) on delete cascade,
+                        foreign key(secondFriendId) references users(id) on delete cascade,
+                        UNIQUE KEY friends_unique_combination (firstFriendId, secondFriendId),
+                        CHECK (firstFriendId != secondFriendId)
 );
 
 create table messages(
