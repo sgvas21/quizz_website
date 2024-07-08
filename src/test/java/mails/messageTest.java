@@ -1,9 +1,17 @@
 package mails;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import DAO.MessageDAO;
+import DAO.UserDAO;
+import database.DBConnection;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import user.Hash;
+import user.User;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class messageTest {

@@ -63,4 +63,22 @@ class MessageDAOTest {
         assertEquals(2, messagesForTestUser.size());
         assertEquals(2, messagesForReceiverUser.size());
     }
+
+    @Test
+    public void testGetMessages() throws SQLException, ClassNotFoundException {
+        User user1 = new User("test1", new Hash("pass").hashingPassword(), "name1", "last1", false);
+        User user2 = new User("test2", new Hash("pass").hashingPassword(), "name2", "last2", false);
+        UserDAO dao1 = new UserDAO(DBConnection.getConnection());
+        dao1.createUser(user1);
+        dao1.createUser(user2);
+
+        message msg = new message(user1.getId(), user2.getId(), "Hello", new Timestamp(System.currentTimeMillis()));
+        MessageDAO dao = new MessageDAO(DBConnection.getConnection());
+        dao.addMessage(msg);
+        dao.addMessage(new message(user1.getId(), user2.getId(), "Good job", new Timestamp(System.currentTimeMillis())));
+
+        assertEquals(2, dao.getMessages(user1.getId(), user2.getId()).size());
+        dao.addMessage(new message(user1.getId(), user2.getId(), "Bye", new Timestamp(System.currentTimeMillis())));
+        assertEquals(3, dao.getMessages(user1.getId(), user2.getId()).size());
+    }
 }

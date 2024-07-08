@@ -51,4 +51,26 @@ public class MessageDAO {
 
         return listMessages;
     }
+
+    public List<message> getMessages(long firstId, long secondId) throws SQLException {
+        List<message> result = new ArrayList<>();
+        PreparedStatement statement = jdbcConnection.prepareStatement
+                ("SELECT * FROM messages WHERE ((fromId=? AND toId=?) OR (fromId=? AND toId=?)) ORDER BY sentTime");
+        statement.setLong(1, firstId);
+        statement.setLong(2, secondId);
+        statement.setLong(3, secondId);
+        statement.setLong(4, firstId);
+        ResultSet res = statement.executeQuery();
+        while (res.next()) {
+            String msg = res.getString("message");
+            long msgId = res.getLong("id");
+            long toId = res.getLong("toId");
+            long fromId = res.getLong("fromId");
+            Timestamp sentTime = res.getTimestamp("sentTime");
+            message curr = new message(msgId, fromId, toId, msg, sentTime);
+            result.add(curr);
+        }
+        return result;
+    }
+
 }

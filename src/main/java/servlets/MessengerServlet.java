@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-@WebServlet
+@WebServlet("/MessengerServlet")
 public class MessengerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -23,7 +23,7 @@ public class MessengerServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-        long fromId = Long.parseLong(request.getParameter("fromId"));
+        long fromId = Long.parseLong(request.getParameter("from_user_id"));
         User user = null;
         try {
             user = userDAO.getUser(fromId);
@@ -39,13 +39,13 @@ public class MessengerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MessageDAO messageDAO = (MessageDAO) request.getServletContext().getAttribute("MessageDAO");
-        message msg = new message(Long.parseLong(request.getParameter("fromId")), Long.parseLong(request.getParameter("toId")),
-                request.getParameter("message"), new Timestamp(System.currentTimeMillis()));
+        message msg = new message(Long.parseLong(request.getParameter("from_user_id")), Long.parseLong(request.getParameter("to_user_id")),
+                request.getParameter("msg_text"), new Timestamp(System.currentTimeMillis()));
         try {
             messageDAO.addMessage(msg);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        response.sendRedirect(request.getContextPath() + "/MessengerServlet?fromId=" + request.getParameter("toId"));
+        response.sendRedirect(request.getContextPath() + "/MessengerServlet?from_user_id=" + request.getParameter("to_user_id"));
     }
 }

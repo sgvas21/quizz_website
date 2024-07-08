@@ -55,6 +55,10 @@
         .card {
             background-color: #f0f0f0; /* Set background color for all cards */
         }
+
+        .friend-username {
+            color: green;
+        }
     </style>
 </head>
 <body class="<%= session.getAttribute("darkMode") != null && session.getAttribute("darkMode").equals("dark") ? "dark-mode" : "" %>">
@@ -137,7 +141,7 @@
                                 if (friendlist != null) {
                                     for (User u : friendlist) { %>
                             <div class="col">
-                                <a class="mb-0" href="UserServlet?username=<%= u.getUsername() %>"><%= u.getUsername() %></a>
+                                <a class="mb-0 friend-username" href="UserServlet?username=<%= u.getUsername() %>"><%= u.getUsername() %></a>
                             </div>
                             <%  }} %>
                         </div>
