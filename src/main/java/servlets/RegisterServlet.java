@@ -33,9 +33,9 @@ public class RegisterServlet extends HttpServlet {
 
         try {
             User existingUser = userDao.getUser(username);
-            String currUsername = existingUser.getUsername();
+            //String currUsername = existingUser.getUsername();
 
-            if (currUsername != null) {
+            if (existingUser != null) {
                 request.setAttribute("text", "User already exists, try a different username.");
                 request.getRequestDispatcher("register.jsp").forward(request, response);
             } else {

@@ -36,8 +36,7 @@ public class LoginServlet extends HttpServlet {
 
         try {
             User user = userDao.getUser(username);
-            String currUsername = user.getUsername();
-            if (currUsername != null && user.getPassword().equals(new Hash(password).hashingPassword())) {
+            if (user != null && user.getPassword().equals(new Hash(password).hashingPassword())) {
                 List<User> friendList = new ArrayList<>(userDao.getFriends(user.getId()));
                 List<quizz> createdQuizzes = userDao.getCreatedQuizzes(user.getId());
                 List<UserAttemptResult> attemptResults = userDao.getAttempts(user.getId());
