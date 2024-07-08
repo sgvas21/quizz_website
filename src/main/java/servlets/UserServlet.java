@@ -42,7 +42,8 @@ public class UserServlet extends HttpServlet {
         try {
             user = userDao.getUser(request.getParameter("username"));
             if (user != null) {
-                friendList = (List<User>) userDao.getFriends(user.getId());
+                Set<User> tmp = userDao.getFriends(user.getId());
+                friendList = new ArrayList<>(tmp);
                 createdQuizzes = userDao.getCreatedQuizzes(user.getId());
                 attemptResults = userDao.getAttempts(user.getId());
             }
