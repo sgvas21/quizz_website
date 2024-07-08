@@ -24,6 +24,14 @@ public class RequestDAO {
         statement.close();
     }
 
+    public void removeRequest(request req) throws SQLException {
+        PreparedStatement statement = jdbcConnection.prepareStatement
+                ("DELETE FROM requests where fromId=? and toId=?");
+        statement.setLong(1, req.getFromId());
+        statement.setLong(2, req.getToId());
+        statement.executeUpdate();
+    }
+
     public List<request> getRequestsByUser(long userId) throws SQLException {
         List<request> listRequests = new ArrayList<>();
         String sql = "SELECT * FROM requests WHERE fromId = ? OR toId = ?";

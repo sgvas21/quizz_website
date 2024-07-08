@@ -13,7 +13,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <style>
-        /* Existing styles for light mode */
+
         .navbar-light-custom {
             background-color: #f0f0f0 !important;
         }
