@@ -50,7 +50,7 @@
     List<User> friendList = (List<User>) request.getAttribute("friendList");
 
     RequestDAO friendRequestDao = (RequestDAO) request.getServletContext().getAttribute("RequestDAO");
-    UserDAO userDao = (UserDAO) request.getServletContext().getAttribute("UserDao");
+    UserDAO userDao = (UserDAO) request.getServletContext().getAttribute("UserDAO");
 
     List<request> requests = friendRequestDao.getRequestsByUser(currUserId);
     List<User> friendReqs= new ArrayList<User>();
@@ -66,11 +66,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-light-custom" style="margin-top: 0; margin-bottom: 1.5%;">
-    <a class="navbar-brand" href="<%= request.getContextPath() %>/quizzes.jsp">Quiz Website</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="navbar-brand" href="<%= request.getContextPath() %>/UserServlet?username=<%= currUsername %>">Quiz Website</a>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link active"
@@ -80,6 +76,8 @@
                href="<%= request.getContextPath() %>/FriendRequestsServlet?userId=<%= currUserId %>">Friend Requests</a>
             <a class="nav-item nav-link"
                href="<%= request.getContextPath() %>/addQuizServlet?userId=<%= currUserId %>">Create Quiz</a>
+            <a class="nav-item nav-link"
+               href="<%= request.getContextPath() %>/quizzes.jsp">Recent Quizzes</a>
         </div>
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="<%= request.getContextPath() %>/LogoutServlet">Sign out</a>

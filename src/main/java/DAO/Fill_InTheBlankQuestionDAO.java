@@ -17,6 +17,7 @@ public class Fill_InTheBlankQuestionDAO implements QuestionDAO{
         this.ad = new AnswerDAO(con);
     }
 
+
     /**
      * Adds a Fill_InTheBlankQuestion to the database.
      * @param question The Fill_InTheBlankQuestion object to add.
@@ -38,7 +39,7 @@ public class Fill_InTheBlankQuestionDAO implements QuestionDAO{
      * @throws SQLException If a database error occurs.
      */
     private long insertFill_InTheBlankQuestion(Fill_InTheBlankQuestion fq, long quizId) throws SQLException {
-        String sql = "INSERT INTO fillintheblankquestions(question, quizId) VALUES (?, ?)";
+        String sql = "INSERT INTO FillInTheBlankQuestions(question, quizId) VALUES (?, ?)";
         try (PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, fq.getQuestion());
             statement.setLong(2, quizId);
@@ -111,7 +112,7 @@ public class Fill_InTheBlankQuestionDAO implements QuestionDAO{
      * @throws SQLException If an SQL error occurs during the statement preparation.
      */
     private PreparedStatement prepareFillInTheBlankStatement(long quizId) throws SQLException {
-        PreparedStatement st = con.prepareStatement("SELECT * FROM fillintheblankquestions WHERE quizId=?");
+        PreparedStatement st = con.prepareStatement("SELECT * FROM FillInTheBlankQuestions WHERE quizId=?");
         st.setLong(1, quizId);
         return st;
     }
@@ -126,7 +127,7 @@ public class Fill_InTheBlankQuestionDAO implements QuestionDAO{
     private Fill_InTheBlankQuestion mapRowToFillInTheBlankQuestion(ResultSet rs) throws SQLException {
         String question = rs.getString("question");
         long questionId = rs.getLong("id");
-        String statement = "SELECT * FROM FIllInTheBlankQuestionsAnswers WHERE questionId = ?;";
+        String statement = "SELECT * FROM FillInTheBlankQuestionsAnswers WHERE questionId = ?;";
         List<String> legalAnswers = ad.getAnswers(questionId, statement);
         return new Fill_InTheBlankQuestion(question, legalAnswers, (int) questionId);
     }

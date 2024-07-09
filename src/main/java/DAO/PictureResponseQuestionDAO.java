@@ -53,7 +53,7 @@ public class PictureResponseQuestionDAO implements QuestionDAO {
             String questionText = resultSet.getString("question");
             String picURL = resultSet.getString("img_url");
 
-            String s = "SELECT * FROM pictureresponsequestionsanswers WHERE questionId = ?;";
+            String s = "SELECT * FROM PictureResponseQuestionsAnswers WHERE questionId = ?;";
             List<String> legalAnswers = ad.getAnswers(questionId, s);
             PictureResponseQuestion pq = new PictureResponseQuestion(questionText, legalAnswers, picURL);
             listQuestion.add(pq);

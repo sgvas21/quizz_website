@@ -75,7 +75,7 @@ class PictureResponseQuestionDAOTest {
     public void testAddQuestion1() throws SQLException {
         pqd.addQuestion(pq1, 1);
         PreparedStatement statement1 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM PictureResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result1 = statement1.executeQuery();
 
         result1.last();
@@ -85,14 +85,14 @@ class PictureResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM PictureResponseQuestionsAnswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
         assertEquals(pq1.getLegalAnswers(), answers);
 
         PreparedStatement st1 = con.prepareStatement(
-                "DELETE FROM pictureresponsequestions where question=?;");
+                "DELETE FROM PictureResponseQuestions where question=?;");
         st1.setString(1, pq1.getQuestion());
         st1.execute();
     }
@@ -101,7 +101,7 @@ class PictureResponseQuestionDAOTest {
     public void testAddQuestion2() throws SQLException {
         pqd.addQuestion(pq2, 1);
         PreparedStatement statement1 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM PictureResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result1 = statement1.executeQuery();
 
         result1.last();
@@ -111,14 +111,14 @@ class PictureResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM PictureResponseQuestionsAnswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
         assertEquals(pq2.getLegalAnswers(), answers);
 
         PreparedStatement st2 = con.prepareStatement(
-                "DELETE FROM pictureresponsequestions where question=?;");
+                "DELETE FROM PictureResponseQuestions where question=?;");
         st2.setString(1, pq2.getQuestion());
         st2.execute();
     }
@@ -128,7 +128,7 @@ class PictureResponseQuestionDAOTest {
         //question 1
         pqd.addQuestion(pq1, 1);
         PreparedStatement statement1 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM PictureResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result1 = statement1.executeQuery();
 
         result1.last();
@@ -138,7 +138,7 @@ class PictureResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM PictureResponseQuestionsAnswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
@@ -147,7 +147,7 @@ class PictureResponseQuestionDAOTest {
         //question 2
         pqd.addQuestion(pq2, 1);
         PreparedStatement statement2 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM PictureResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result2 = statement2.executeQuery();
 
         result2.last();
@@ -157,7 +157,7 @@ class PictureResponseQuestionDAOTest {
 
         List<String> answers2 = new ArrayList<>();
         PreparedStatement statement_2 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM PictureResponseQuestionsAnswers WHERE questionId=?;");
         statement_2.setLong(1, questionId2);
         ResultSet result_2 = statement_2.executeQuery();
         while (result_2.next()) answers2.add(result_2.getString("answer"));
@@ -166,7 +166,7 @@ class PictureResponseQuestionDAOTest {
         //question3
         pqd.addQuestion(pq3, 1);
         PreparedStatement statement3 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM PictureResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result3 = statement3.executeQuery();
 
         result3.last();
@@ -176,24 +176,24 @@ class PictureResponseQuestionDAOTest {
 
         List<String> answers3 = new ArrayList<>();
         PreparedStatement statement_3 = con.prepareStatement(
-                "SELECT * FROM pictureresponsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM PictureResponseQuestionsAnswers WHERE questionId=?;");
         statement_3.setLong(1, questionId3);
         ResultSet result_3 = statement_3.executeQuery();
         while (result_3.next()) answers3.add(result_3.getString("answer"));
         assertEquals(pq3.getLegalAnswers(), answers3);
 
         PreparedStatement st1 = con.prepareStatement(
-                "DELETE FROM pictureresponsequestions where question=?;");
+                "DELETE FROM PictureResponseQuestions where question=?;");
         st1.setString(1, pq1.getQuestion());
         st1.execute();
 
         PreparedStatement st2 = con.prepareStatement(
-                "DELETE FROM pictureresponsequestions where question=?;");
+                "DELETE FROM PictureResponseQuestions where question=?;");
         st2.setString(1, pq2.getQuestion());
         st2.execute();
 
         PreparedStatement st3 = con.prepareStatement(
-                "DELETE FROM pictureresponsequestions where question=?;");
+                "DELETE FROM PictureResponseQuestions where question=?;");
         st3.setString(1, pq3.getQuestion());
         st3.execute();
     }
@@ -220,17 +220,17 @@ class PictureResponseQuestionDAOTest {
         assertEquals(legalAnswers3, pq3.getLegalAnswers());
 
         PreparedStatement st1 = con.prepareStatement(
-                "DELETE FROM pictureresponsequestions where question=?;");
+                "DELETE FROM PictureResponseQuestions where question=?;");
         st1.setString(1, pq1.getQuestion());
         st1.execute();
 
         PreparedStatement st2 = con.prepareStatement(
-                "DELETE FROM pictureresponsequestions where question=?;");
+                "DELETE FROM PictureResponseQuestions where question=?;");
         st2.setString(1, pq2.getQuestion());
         st2.execute();
 
         PreparedStatement st3 = con.prepareStatement(
-                "DELETE FROM pictureresponsequestions where question=?;");
+                "DELETE FROM PictureResponseQuestions where question=?;");
         st3.setString(1, pq3.getQuestion());
         st3.execute();
     }

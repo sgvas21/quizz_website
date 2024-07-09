@@ -35,7 +35,7 @@
                         <form action="addQuizServlet" method="post" class="mb-4">
                             <input required type="text" name="name" class="form-control form-control-lg mb-4" placeholder="Enter quiz name" />
                             <input required type="number" name="nQuestions" class="form-control form-control-lg mb-4" placeholder="number of Questions" />
-                            <input type="checkbox" name="random">
+                            <input type="checkbox" id="random">
                             <label for="random">Randomize Questions</label>
                             <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
                         </form>

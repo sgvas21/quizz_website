@@ -104,20 +104,18 @@
     int currUserId = getCurrentUserId(currUser);
 %>
     <nav class="navbar navbar-expand-lg navbar-light navbar-light-custom" style="margin-top: 0; margin-bottom: 1.5%;">
-        <a class="navbar-brand" href="<%= request.getContextPath() %>/quizzes.jsp">Quiz Website</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <a class="navbar-brand" href="<%= request.getContextPath() %>/UserServlet?username=<%= currUser.getUsername() %>">Quiz Website</a>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link active"
                    href="<%= request.getContextPath() %>/UserServlet?username=<%= currUser.getUsername() %>">My Profile <span
                         class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link"
-                   href="<%= request.getContextPath() %>/FriendRequestsServlet?userId=<%= currUser.getId() %>">Friend Requests</a>
+                   href="<%= request.getContextPath() %>/FriendRequestsServlet?userId=<%= currUserId %>">Friend Requests</a>
                 <a class="nav-item nav-link"
                    href="<%= request.getContextPath() %>/addQuizServlet?userId=<%= currUserId %>">Create Quiz</a>
+                <a class="nav-item nav-link"
+                   href="<%= request.getContextPath() %>/quizzes.jsp">Recent Quizzes</a>
             </div>
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="<%= request.getContextPath() %>/LogoutServlet">Sign out</a>
@@ -179,7 +177,7 @@
                             <%!
                                 // Helper method to get UserDAO from servlet context
                                 UserDAO getUserDAO(ServletContext context) {
-                                    return (UserDAO) context.getAttribute("UserDao");
+                                    return (UserDAO) context.getAttribute("UserDAO");
                                 }
 
                                 // Helper method to get a user by ID

@@ -179,5 +179,4 @@ public class QuizzDAO {
         }
         return res;
     }
-
 }

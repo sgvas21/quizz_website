@@ -59,6 +59,10 @@
         .friend-username {
             color: green;
         }
+
+        .col-lg-4, .col-lg-8 {
+            padding: 15px;
+        }
     </style>
 </head>
 <body class="<%= session.getAttribute("darkMode") != null && session.getAttribute("darkMode").equals("dark") ? "dark-mode" : "" %>">
@@ -82,11 +86,7 @@
 %>
 
 <nav class="navbar navbar-expand-lg navbar-light navbar-light-custom" style="margin-top: 0; margin-bottom: 1.5%;">
-    <a class="navbar-brand" href="<%= request.getContextPath() %>/quizzes.jsp">Quiz Website</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <a class="navbar-brand" href="<%= request.getContextPath() %>/UserServlet?username=<%= currUsername %>">Quiz Website</a>
     <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link active"
@@ -96,6 +96,8 @@
                href="<%= request.getContextPath() %>/FriendRequestsServlet?userId=<%= currUserId %>">Friend Requests</a>
             <a class="nav-item nav-link"
                href="<%= request.getContextPath() %>/addQuizServlet?userId=<%= currUserId %>">Create Quiz</a>
+            <a class="nav-item nav-link"
+               href="<%= request.getContextPath() %>/quizzes.jsp">Recent Quizzes</a>
         </div>
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="<%= request.getContextPath() %>/LogoutServlet">Sign out</a>
@@ -167,7 +169,7 @@
                             <% List<UserAttemptResult> attempts = (List<UserAttemptResult>) request.getAttribute("attempts");
                                 if (attempts != null) {
                                     for (UserAttemptResult q : attempts) {
-                                        QuizzDAO dao = (QuizzDAO) request.getServletContext().getAttribute("QuizDao");
+                                        QuizzDAO dao = (QuizzDAO) request.getServletContext().getAttribute("QuizDAO");
                                         quizz quiz = dao.getQuizzById(q.getQuizId()); %>
                             <div class="row mb-3">
                                 <div class="col">

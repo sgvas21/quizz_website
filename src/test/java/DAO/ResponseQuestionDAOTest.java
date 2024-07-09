@@ -73,7 +73,7 @@ class ResponseQuestionDAOTest {
     public void testAddQuestion1() throws SQLException {
         rqd.addQuestion(rq1, 1);
         PreparedStatement statement1 = con.prepareStatement(
-                "SELECT * FROM responsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM ResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result1 = statement1.executeQuery();
 
         result1.last();
@@ -83,14 +83,14 @@ class ResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM ResponseQuestionsAnswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
         assertEquals(rq1.getLegalAnswers(), answers);
 
         PreparedStatement st1 = con.prepareStatement(
-                "DELETE FROM responsequestions where question=?;");
+                "DELETE FROM ResponseQuestions where question=?;");
         st1.setString(1, rq1.getQuestion());
         st1.execute();
     }
@@ -99,7 +99,7 @@ class ResponseQuestionDAOTest {
     public void testAddQuestion2() throws SQLException {
         rqd.addQuestion(rq2, 1);
         PreparedStatement statement1 = con.prepareStatement(
-                "SELECT * FROM responsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM ResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result1 = statement1.executeQuery();
 
         result1.last();
@@ -109,14 +109,14 @@ class ResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM ResponseQuestionsAnswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
         assertEquals(rq2.getLegalAnswers(), answers);
 
         PreparedStatement st2 = con.prepareStatement(
-                "DELETE FROM responsequestions where question=?;");
+                "DELETE FROM ResponseQuestions where question=?;");
         st2.setString(1, rq2.getQuestion());
         st2.execute();
     }
@@ -126,7 +126,7 @@ class ResponseQuestionDAOTest {
         //question 1
         rqd.addQuestion(rq1, 1);
         PreparedStatement statement1 = con.prepareStatement(
-                "SELECT * FROM responsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM ResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result1 = statement1.executeQuery();
 
         result1.last();
@@ -136,7 +136,7 @@ class ResponseQuestionDAOTest {
 
         List<String> answers = new ArrayList<>();
         PreparedStatement statement_1 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM ResponseQuestionsAnswers WHERE questionId=?;");
         statement_1.setLong(1, questionId1);
         ResultSet result_1 = statement_1.executeQuery();
         while (result_1.next()) answers.add(result_1.getString("answer"));
@@ -145,7 +145,7 @@ class ResponseQuestionDAOTest {
         //question 2
         rqd.addQuestion(rq2, 1);
         PreparedStatement statement2 = con.prepareStatement(
-                "SELECT * FROM responsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM ResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result2 = statement2.executeQuery();
 
         result2.last();
@@ -155,7 +155,7 @@ class ResponseQuestionDAOTest {
 
         List<String> answers2 = new ArrayList<>();
         PreparedStatement statement_2 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM ResponseQuestionsAnswers WHERE questionId=?;");
         statement_2.setLong(1, questionId2);
         ResultSet result_2 = statement_2.executeQuery();
         while (result_2.next()) answers2.add(result_2.getString("answer"));
@@ -164,7 +164,7 @@ class ResponseQuestionDAOTest {
         //question3
         rqd.addQuestion(rq3, 1);
         PreparedStatement statement3 = con.prepareStatement(
-                "SELECT * FROM responsequestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                "SELECT * FROM ResponseQuestions;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
         ResultSet result3 = statement3.executeQuery();
 
         result3.last();
@@ -174,24 +174,24 @@ class ResponseQuestionDAOTest {
 
         List<String> answers3 = new ArrayList<>();
         PreparedStatement statement_3 = con.prepareStatement(
-                "SELECT * FROM responsequestionsanswers WHERE questionId=?;");
+                "SELECT * FROM ResponseQuestionsAnswers WHERE questionId=?;");
         statement_3.setLong(1, questionId3);
         ResultSet result_3 = statement_3.executeQuery();
         while (result_3.next()) answers3.add(result_3.getString("answer"));
         assertEquals(rq3.getLegalAnswers(), answers3);
 
         PreparedStatement st1 = con.prepareStatement(
-                "DELETE FROM responsequestions where question=?;");
+                "DELETE FROM ResponseQuestions where question=?;");
         st1.setString(1, rq1.getQuestion());
         st1.execute();
 
         PreparedStatement st2 = con.prepareStatement(
-                "DELETE FROM responsequestions where question=?;");
+                "DELETE FROM ResponseQuestions where question=?;");
         st2.setString(1, rq2.getQuestion());
         st2.execute();
 
         PreparedStatement st3 = con.prepareStatement(
-                "DELETE FROM responsequestions where question=?;");
+                "DELETE FROM ResponseQuestions where question=?;");
         st3.setString(1, rq3.getQuestion());
         st3.execute();
     }
@@ -218,17 +218,17 @@ class ResponseQuestionDAOTest {
         assertEquals(legalAnswers3, rq3.getLegalAnswers());
 
         PreparedStatement st1 = con.prepareStatement(
-                "DELETE FROM responsequestions where question=?;");
+                "DELETE FROM ResponseQuestions where question=?;");
         st1.setString(1, rq1.getQuestion());
         st1.execute();
 
         PreparedStatement st2 = con.prepareStatement(
-                "DELETE FROM responsequestions where question=?;");
+                "DELETE FROM ResponseQuestions where question=?;");
         st2.setString(1, rq2.getQuestion());
         st2.execute();
 
         PreparedStatement st3 = con.prepareStatement(
-                "DELETE FROM responsequestions where question=?;");
+                "DELETE FROM ResponseQuestions where question=?;");
         st3.setString(1, rq3.getQuestion());
         st3.execute();
     }

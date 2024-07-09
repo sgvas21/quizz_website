@@ -40,7 +40,7 @@ public class ResponseQuestionDAO implements QuestionDAO {
      * @throws SQLException If there is any issue with database access or the SQL statement.
      */
     private long insertResponseQuestion(ResponseQuestion rq, long quizId) throws SQLException {
-        String sql = "INSERT INTO responsequestions(question, quizId) VALUES (?, ?)";
+        String sql = "INSERT INTO ResponseQuestions(question, quizId) VALUES (?, ?)";
         try (PreparedStatement statement = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, rq.getQuestion());
             statement.setLong(2, quizId);
@@ -64,7 +64,7 @@ public class ResponseQuestionDAO implements QuestionDAO {
      * @throws SQLException If there is any issue with database access or the SQL statement.
      */
     private void insertResponseQuestionAnswers(List<String> answers, long questionId) throws SQLException {
-        String sql = "INSERT INTO responsequestionsanswers(answer, questionId) VALUES (?, ?)";
+        String sql = "INSERT INTO ResponseQuestionsAnswers(answer, questionId) VALUES (?, ?)";
         ad.insertAnswers(sql, questionId, answers);
     }
 
@@ -115,7 +115,7 @@ public class ResponseQuestionDAO implements QuestionDAO {
      * @throws SQLException If an SQL error occurs during the statement preparation.
      */
     private PreparedStatement prepareResponseQuestionStatement(long quizId) throws SQLException {
-        PreparedStatement st = con.prepareStatement("SELECT * FROM responsequestions WHERE quizId=?");
+        PreparedStatement st = con.prepareStatement("SELECT * FROM ResponseQuestions WHERE quizId=?");
         st.setLong(1, quizId);
         return st;
     }
