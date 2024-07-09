@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import response.AnswerResponse;
 import response.Response;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,5 +76,18 @@ public class MultipleChoiceQuestionTest {
         Response answerResponse = new AnswerResponse(sampleIncorrectAnswers);
 
         assertEquals(0, mcq.getScore(answerResponse));
+    }
+
+    @Test
+    public void test5_shuffle() {
+        MultipleChoiceQuestion mcq = new MultipleChoiceQuestion(sampleId, sampleQuestion, sampleCorrectAnswer, sampleIncorrectAnswers);
+        List<String> allAnswers = new ArrayList<>(List.of(sampleCorrectAnswer));
+        allAnswers.addAll(sampleIncorrectAnswers);
+
+        Set<String> allAnswerSet = new HashSet<>(allAnswers);
+        Set<String> allAnswerSetWithGet = new HashSet<>(mcq.getAllAnswers());
+
+        assertEquals(allAnswerSet, allAnswerSetWithGet);
+
     }
 }

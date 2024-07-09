@@ -6,9 +6,7 @@ import database.DBConnection;
 import response.Response;
 
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MultipleChoiceQuestion implements Question {
     private long id;
@@ -55,6 +53,16 @@ public class MultipleChoiceQuestion implements Question {
     public String getCorrectAnswer() { return correctAnswer; }
 
     public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
+
+    //All Answers in random order
+    public List<String> getAllAnswers() {
+        List<String> answers = new ArrayList<>();
+        answers.add(correctAnswer);
+        answers.addAll(incorrectAnswers);
+
+        Collections.shuffle(answers);
+        return answers;
+    }
 
     //For each correct answer we get 1 point
     @Override
