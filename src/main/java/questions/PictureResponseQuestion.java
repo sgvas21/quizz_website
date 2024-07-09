@@ -54,7 +54,13 @@ public class PictureResponseQuestion implements Question{
         this.legalAnswers = legalAnswers;
     }
 
-    //For each correct answer we get 1 point
+    /**
+     * Calculates the score based on the provided response.
+     * Each answer in the response earns 1 point.
+     *
+     * @param response the response object containing user-provided answers
+     * @return the score as a double value
+     */
     @Override
     public double getScore(Response response) {
         Iterator<String> allAnswers = response.getAllAnswers();
@@ -65,11 +71,24 @@ public class PictureResponseQuestion implements Question{
         }
         return count;
     }
+
+    /**
+     * Returns a DAO object specific to handling picture response questions.
+     *
+     * @return the DAO object for handling picture response questions
+     * @throws SQLException            if a database access error occurs
+     * @throws ClassNotFoundException  if the database driver class is not found
+     */
     @Override
     public QuestionDAO getDao() throws SQLException, ClassNotFoundException {
         return new PictureResponseQuestionDAO(DBConnection.getConnection());
     }
 
+    /**
+     * Returns a string representation of the PictureResponseQuestion object.
+     *
+     * @return a string representation of the PictureResponseQuestion object
+     */
     @Override
     public String toString() {
         return "PictureResponseQuestion {" +
