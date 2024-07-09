@@ -9,6 +9,7 @@ public class message {
     private String message;
     private Timestamp sentTime;
 
+    // Constructor to initialize all fields
     public message(long messageId, long fromId, long toId, String message, Timestamp sentTime){
         this.messageId = messageId;
         this.fromId = fromId;
@@ -17,6 +18,7 @@ public class message {
         this.sentTime = sentTime;
     }
 
+    // Constructor without messageId, useful for creating new messages before saving to database
     public message(long fromId, long toId, String message, Timestamp sentTime){
         this.fromId = fromId;
         this.toId = toId;
@@ -24,47 +26,60 @@ public class message {
         this.sentTime = sentTime;
     }
 
+    // Getter for messageId
     public long getMessageId() {
         return messageId;
     }
 
+    // Setter for messageId
     public void setMessageId(long messageId) {
         this.messageId = messageId;
     }
 
+    // Getter for fromId
     public long getFromId(){
         return fromId;
     }
 
+    // Setter for fromId
     public void setFromId(long fromId) {
         this.fromId = fromId;
     }
 
+    // Getter for toId
     public long getToId(){
         return toId;
     }
 
+    // Setter for toId
     public void setToId(long toId) {
         this.toId = toId;
     }
 
+    // Getter for message
     public String getMessage(){
         return message;
     }
 
+    // Setter for message
     public void setMessage(String message){
         this.message = message;
     }
 
-    public Timestamp getSentTime() { return sentTime; }
+    // Getter for sentTime
+    public Timestamp getSentTime() {
+        return sentTime;
+    }
 
+    // toString method to provide string representation of the message object
     @Override
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
                 ", fromId=" + fromId +
                 ", toId=" + toId +
-                ", Message='" + message + '\'' +
+                ", message='" + message + '\'' +
+                ", sentTime=" + sentTime +
                 '}';
     }
 }

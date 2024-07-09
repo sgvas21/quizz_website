@@ -1,7 +1,6 @@
 package user;
 
 import java.util.Objects;
-import java.util.StringTokenizer;
 
 public class User {
     private int id;
@@ -11,8 +10,10 @@ public class User {
     private String lastname;
     private boolean adminPrivileges;
 
+    // Default constructor
     public User() {}
 
+    // Copy constructor
     public User(User user) {
         this.id = user.id;
         this.username = user.username;
@@ -22,6 +23,7 @@ public class User {
         this.adminPrivileges = user.adminPrivileges;
     }
 
+    // Constructor with all fields except id
     public User(String username, String password, String firstname, String lastname, boolean adminPrivileges) {
         this.username = username;
         this.password = password;
@@ -30,35 +32,62 @@ public class User {
         this.adminPrivileges = adminPrivileges;
     }
 
+    // Full constructor including id
     public User(int id, String username, String password, String firstname, String lastname, boolean adminPrivileges) {
         this(username, password, firstname, lastname, adminPrivileges);
         this.id = id;
     }
 
-    public int getId() {return this.id; }
+    // Getters and Setters
+    public int getId() {
+        return this.id;
+    }
 
-    public void setId(int id) { this.id = id; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getUsername() {return this.username; }
+    public String getUsername() {
+        return this.username;
+    }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public String getPassword() { return this.password; }
+    public String getPassword() {
+        return this.password;
+    }
 
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    public String getFirstname() {return this.firstname; }
+    public String getFirstname() {
+        return this.firstname;
+    }
 
-    public void setFirstname(String firstname) { this.firstname = firstname; }
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
-    public String getLastname() {return this.lastname; }
+    public String getLastname() {
+        return this.lastname;
+    }
 
-    public void setLastname(String lastname) { this.lastname = lastname; }
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
-    public boolean hasAdminPrivileges() { return this.adminPrivileges; }
+    public boolean hasAdminPrivileges() {
+        return this.adminPrivileges;
+    }
 
-    public void setAdminPrivileges(boolean isAdmin) { this.adminPrivileges = isAdmin; }
+    public void setAdminPrivileges(boolean isAdmin) {
+        this.adminPrivileges = isAdmin;
+    }
 
+    // toString method for debugging and logging
     @Override
     public String toString() {
         return "User {" +
@@ -66,24 +95,26 @@ public class User {
                 ", username='" + this.username + '\'' +
                 ", password='" + this.password + '\'' +
                 ", firstname='" + this.firstname + '\'' +
-                ", lastname=" + this.lastname + '\'' +
+                ", lastname='" + this.lastname + '\'' +
                 ", isAdmin=" + this.adminPrivileges +
                 '}';
     }
 
+    // equals method for comparing User objects
     @Override
     public boolean equals(Object o) {
-        if(o == this) return true;
-        if(!(o instanceof User that)) return false;
-
-        return (this.id == that.id) &&
-                Objects.equals(this.username, that.username) &&
-                Objects.equals(this.password, that.password) &&
-                Objects.equals(this.firstname, that.firstname) &&
-                Objects.equals(this.lastname, that.lastname) &&
-                Objects.equals(this.adminPrivileges, that.adminPrivileges);
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return id == user.id &&
+                adminPrivileges == user.adminPrivileges &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(firstname, user.firstname) &&
+                Objects.equals(lastname, user.lastname);
     }
 
+    // hashCode method for hashing User objects
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password, firstname, lastname, adminPrivileges);

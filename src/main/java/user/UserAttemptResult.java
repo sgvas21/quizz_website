@@ -1,13 +1,14 @@
 package user;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class UserAttemptResult {
     private long id;
     private long quizId;
     private long userId;
     private double score;
-    Timestamp timestamp;
+    private Timestamp timestamp;
 
     public UserAttemptResult(long quizId, long userId, double score, Timestamp timestamp) {
         this.quizId = quizId;
@@ -21,9 +22,13 @@ public class UserAttemptResult {
         this.id = id;
     }
 
-    public long getId() { return id; }
+    public long getId() {
+        return id;
+    }
 
-    public void setId(long id) { this.id = id; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getQuizId() {
         return quizId;
@@ -37,7 +42,7 @@ public class UserAttemptResult {
         return score;
     }
 
-    public Timestamp getTimeSpent() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
@@ -47,17 +52,21 @@ public class UserAttemptResult {
                 "id: " + this.id +
                 ", quizId: " + this.quizId +
                 ", userId: " + this.userId +
-                ", score: " + (this.score * 1.00) +
-                ", time Spent: " + timestamp.getTime() +
+                ", score: " + (this.score * 1.00) + // Format score as double
+                ", time Spent: " + timestamp.getTime() + // Get time in milliseconds
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof UserAttemptResult that)) return false;
+        if (!(o instanceof UserAttemptResult)) return false;
+        UserAttemptResult that = (UserAttemptResult) o;
+        return id == that.id;
+    }
 
-        return this.id == that.id;
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
