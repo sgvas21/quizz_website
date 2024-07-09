@@ -46,6 +46,8 @@
                 </div>
                 <%} else if (questionsList.get(i).getClass() == PictureResponseQuestion.class) {%>
                 <input required type="text" name="<%= i %>" class="form-control form-control-lg mb-4" placeholder="Answer" />
+                <%PictureResponseQuestion prq = (PictureResponseQuestion) questionsList.get(i);%>
+                <img src="<%= prq.getPicURL() %>" alt="Pic not Found">
                 <%}%>
                 <hr>
                 <%}%>
