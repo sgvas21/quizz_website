@@ -11,13 +11,17 @@
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                 <div class="card shadow-2-strong" style="border-radius: 1rem;">
                     <div class="card-body p-5 text-center">
-                        <form action="questionTypesServlet" method="post" class="mb-4">
+                        <form action="QuestionTypesServlet" method="post" class="mb-4">
                             <h3>Select type of question</h3>
                             <select  name="type" style="margin: 3%">
                                 <option value="ResponseQuestion" >Response Question</option>
+<<<<<<< Updated upstream
                                 <option value="MultipleChoiceQuestion" >Multiple Choice Question</option>
                                 <option value="PictureResponseQuestion" >Picture Response Question</option>
                                 <option value="FillInTheBlankQuestion" >Fill In The Blank Question</option>
+=======
+                                <option value="PictureResponseQuestion" >Picture Response Question</option>
+>>>>>>> Stashed changes
                             </select>
                             <input class="btn btn-success" type="submit" value="Submit">
                         </form>
