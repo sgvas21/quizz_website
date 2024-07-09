@@ -3,6 +3,7 @@
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="DAO.MessageDAO" %>
 <%@ page import="mails.message" %>
+<%@ page import="java.io.IOException" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,20 +75,28 @@
     </div>
     <ul class="messages">
 
+            <%!
+                // Helper method to generate message list item
+                void generateMessageItem(JspWriter out, message m, User user) throws IOException {
+                    if (m.getFromId() == user.getId()) {
+                        out.println("<li class='message right appeared'>");
+                    } else {
+                        out.println("<li class='message left appeared'>");
+                    }
+                    out.println("<div class='avatar'></div>");
+                    out.println("<div class='text_wrapper'>");
+                    out.println("<div class='text'>" + m.getMessage() + "</div></div></li>");
+                }
+            %>
+
             <%
                 if (messageList != null) {
-                    for(message m : messageList) {
-                        if (m.getFromId() == user.getId()) {
-                            out.println("<li class='message right appeared'>");
-                        } else {
-                            out.println("<li class='message left appeared'>");
-                        }
-                        out.println("<div class='avatar'></div>");
-                        out.println("<div class='text_wrapper'>");
-                        out.println("<div class='text'>" + m.getMessage() + "</div></div></li>");
+                    for (message m : messageList) {
+                        generateMessageItem(out, m, user);
                     }
                 }
             %>
+
 
 </div>
 <div class="message_template">
