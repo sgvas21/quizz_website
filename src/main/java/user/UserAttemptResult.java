@@ -1,15 +1,16 @@
 package user;
 
 import java.sql.Timestamp;
-import java.util.Objects;
 
 public class UserAttemptResult {
-    private long id;
-    private long quizId;
-    private long userId;
-    private double score;
-    private Timestamp timestamp;
+    // Attributes
+    private long id;             // Unique identifier for the attempt result
+    private long quizId;         // ID of the quiz attempted
+    private long userId;         // ID of the user who attempted the quiz
+    private double score;        // Score achieved by the user
+    private Timestamp timestamp; // Timestamp when the attempt was made
 
+    // Constructors
     public UserAttemptResult(long quizId, long userId, double score, Timestamp timestamp) {
         this.quizId = quizId;
         this.userId = userId;
@@ -21,6 +22,8 @@ public class UserAttemptResult {
         this(quizId, userId, score, timestamp);
         this.id = id;
     }
+
+    // Getters and Setters
 
     public long getId() {
         return id;
@@ -42,9 +45,11 @@ public class UserAttemptResult {
         return score;
     }
 
-    public Timestamp getTimestamp() {
+    public Timestamp getTimeSpent() {
         return timestamp;
     }
+
+    // Override Methods
 
     @Override
     public String toString() {
@@ -62,11 +67,6 @@ public class UserAttemptResult {
         if (this == o) return true;
         if (!(o instanceof UserAttemptResult)) return false;
         UserAttemptResult that = (UserAttemptResult) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+        return this.id == that.id;
     }
 }

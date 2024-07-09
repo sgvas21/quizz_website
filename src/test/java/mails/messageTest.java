@@ -55,6 +55,7 @@ public class messageTest {
 
     @Test
     public void testToString() {
-        assertEquals("Message{messageId=1, fromId=2, toId=3, Message='Hello'}", msg1.toString());
+        assertEquals("Message{messageId=1, fromId=2, toId=3, message='Hello', sentTime=" + timestamp + "}", msg1.toString());
     }
+
 }
