@@ -35,6 +35,15 @@
                 <input required type="text" name="<%= i %>" class="form-control form-control-lg mb-4" placeholder="Answer" />
                 <%} else if (questionsList.get(i).getClass() == Fill_InTheBlankQuestion.class) {%>
                 <input required type="text" name="<%= i %>" class="form-control form-control-lg mb-4" placeholder="Answer" />
+                <%} else if (questionsList.get(i).getClass() == MultipleChoiceQuestion.class) {%>
+                <div style='padding: 15px;'>
+                    <%MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) questionsList.get(i);
+                        int j = 0;
+                        for(String ans : mcq.getAllAnswers()) {%>
+                    <input type='radio' name='<%= i %>' value="<%= ans %>" id='<%= j %>' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
+                    <label for="<%= j %>"> <%= ans %></label> <br>
+                    <% j++;} %>
+                </div>
                 <%} else if (questionsList.get(i).getClass() == PictureResponseQuestion.class) {%>
                 <input required type="text" name="<%= i %>" class="form-control form-control-lg mb-4" placeholder="Answer" />
                 <%}%>
