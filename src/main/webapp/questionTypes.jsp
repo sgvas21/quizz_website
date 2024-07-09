@@ -14,10 +14,10 @@
                         <form action="questionTypesServlet" method="post" class="mb-4">
                             <h3>Select type of question</h3>
                             <select  name="type" style="margin: 3%">
-                                <option value="MultipleAnswerUnorderedResponseQuestion" >Response Question</option>
-                                <option value="MultipleChoiceUnorderedResponseQuestion" >Multiple Choice Question</option>
-                                <option value="PictureUnorderedResponseQuestion" >Picture Response Question</option>
-                                <option value="StandardUnorderedResponseQuestion" >Fill In The Blank Question</option>
+                                <option value="ResponseQuestion" >Response Question</option>
+                                <option value="MultipleChoiceQuestion" >Multiple Choice Question</option>
+                                <option value="PictureResponseQuestion" >Picture Response Question</option>
+                                <option value="FillInTheBlankQuestion" >Fill In The Blank Question</option>
                             </select>
                             <input class="btn btn-success" type="submit" value="Submit">
                         </form>
