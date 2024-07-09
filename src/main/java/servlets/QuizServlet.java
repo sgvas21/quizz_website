@@ -38,7 +38,7 @@ public class QuizServlet extends HttpServlet {
             quizz quiz = quizzDAO.getQuizzById(quizId);
             request.setAttribute("quiz", quiz);
             request.setAttribute("questions", quiz.getQuestions());
-            request.getRequestDispatcher("quizTake.jsp").forward(request, response);
+            request.getRequestDispatcher("takeQuiz.jsp").forward(request, response);
         } catch (ServletException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
